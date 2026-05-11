@@ -1,0 +1,3564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Node Data · Radar Eleitoral — Inteligência de campanha para candidatos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="tokens.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { background: var(--paper-0); }
+
+  /* ========== TOPO / NAV ========== */
+  .topbar {
+    background: var(--ink);
+    color: var(--paper-2);
+    font-size: 12px;
+    padding: 8px 0;
+    letter-spacing: 0.02em;
+  }
+  .topbar-inner {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 var(--page-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar a { color: var(--paper-3); }
+  .topbar .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 2px 10px; border-radius: var(--r-pill);
+    background: rgba(255,255,255,0.08);
+    color: var(--paper-1);
+  }
+  .topbar .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74,222,128,0.18);
+  }
+
+  .nav {
+    background: var(--paper-0);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .nav-inner {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 18px var(--page-x);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-serif);
+    font-size: 22px; font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .brand img { width: 30px; height: 30px; }
+  .brand-mark { flex-shrink: 0; }
+  .brand-sub {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-top: 2px;
+    line-height: 1;
+  }
+  .nav-links {
+    display: flex; gap: 32px;
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+  .nav-links a { color: inherit; font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); text-decoration: none; }
+  .nav-cta { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border-radius: 0;
+    font-size: 14px; font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: var(--font-sans);
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper-0); border-radius: 0; letter-spacing: 0.04em; text-transform: uppercase; font-size: 12.5px; font-weight: 700; padding: 14px 22px; }
+  .btn-primary:hover { background: var(--ink-2); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+  .btn-ghost:hover { background: var(--paper-1); }
+  .btn-clay { background: var(--clay-500); color: var(--paper-0); }
+  .btn-clay:hover { background: var(--clay-700); }
+  .btn-lg { padding: 14px 24px; font-size: 15px; }
+
+  /* ========== HERO ========== */
+  .hero {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    position: relative;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 96px var(--page-x) 88px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 64px;
+    align-items: start;
+  }
+  .hero-left { max-width: 720px; min-width: 0; }
+  .hero-brain-wrap {
+    position: relative;
+    width: min(460px, 36vw);
+    aspect-ratio: 1 / 1;
+    justify-self: end;
+    margin-right: -40px;
+    margin-top: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+  }
+  /* atmospheric halo behind the brain — very faint */
+  .hero-brain-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 6%;
+    z-index: -1;
+    background:
+      radial-gradient(closest-side at 50% 52%, rgba(207, 159, 92, 0.11), rgba(207, 159, 92, 0.04) 44%, transparent 74%),
+      radial-gradient(closest-side at 56% 56%, rgba(37, 211, 102, 0.05), transparent 64%);
+    filter: blur(36px);
+    animation: brainGlow 7.5s ease-in-out infinite;
+  }
+  .hero-brain-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 24px 36px rgba(8, 20, 38, 0.18)) drop-shadow(0 8px 14px rgba(8, 20, 38, 0.10));
+    animation: brainFloat 9s ease-in-out infinite;
+    transform-origin: 50% 60%;
+    will-change: transform;
+  }
+  @keyframes brainFloat {
+    0%   { transform: translateY(0)     rotate(-1.6deg); }
+    50%  { transform: translateY(-14px) rotate(2.2deg); }
+    100% { transform: translateY(0)     rotate(-1.6deg); }
+  }
+  @keyframes brainGlow {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.04); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-brain-img, .hero-brain-wrap::before { animation: none; }
+  }
+  @media (max-width: 900px) {
+    .hero-brain-wrap {
+      width: min(380px, 84vw);
+      margin: 24px auto 0;
+      justify-self: center;
+    }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; align-items: center; }
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--ink-3);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 32px; height: 1px; background: var(--ink-3);
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: 72px; line-height: 1.02;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    color: var(--clay-700);
+  }
+  .hero h1 .wa-green { color: #25D366; }
+  .hero p.lead {
+    font-size: 18px; line-height: 1.55;
+    color: var(--ink-3);
+    max-width: 540px;
+    margin-bottom: 36px;
+  }
+  .hero-cta { display: flex; gap: 14px; align-items: center; }
+  .hero-meta {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 560px;
+  }
+  .hero-meta .num {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .hero-meta .lbl {
+    font-size: 12px;
+    color: var(--ink-4);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Hero visual — mock dashboard */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--paper-1);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    box-shadow: var(--shadow-3);
+  }
+  .mock-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--paper-0);
+  }
+  .mock-dots { display: flex; gap: 6px; }
+  .mock-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); }
+  .mock-title { font-size: 11px; color: var(--ink-4); font-family: var(--font-mono); }
+
+  .mock-body { padding: 22px; }
+  .mock-eyebrow {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--ink-4);
+    margin-bottom: 8px;
+  }
+  .mock-cityname {
+    font-family: var(--font-serif); font-size: 28px;
+    font-weight: 500; letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .mock-region { font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
+
+  .score-card {
+    background: var(--ink);
+    color: var(--paper-0);
+    padding: 18px;
+    border-radius: var(--r-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 18px;
+  }
+  .score-card .score-num {
+    font-family: var(--font-serif);
+    font-size: 56px; font-weight: 500;
+    line-height: 1; letter-spacing: -0.03em;
+  }
+  .score-card .score-num small {
+    font-size: 18px; opacity: 0.5;
+  }
+  .score-card .score-meta { text-align: right; font-size: 11px; }
+  .score-card .score-meta .delta {
+    color: #4ade80; font-weight: 600; font-size: 13px;
+  }
+
+  .mock-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 12px;
+  }
+  .mock-row:last-child { border-bottom: 0; }
+  .ficha-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    align-items: center; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 13px;
+  }
+  .ficha-row:last-child { border-bottom: 0; }
+  .ficha-row svg { width: 20px; height: 20px; color: var(--ink-2); }
+  .ficha-row .lbl { color: var(--ink-2); }
+  .ficha-row .val { font-family: var(--font-mono); font-size: 12px; color: var(--ink); font-weight: 600; }
+  .ficha-row .val.ok { color: var(--ok); }
+  .ficha-row .val.warn { color: var(--alert); }
+  .mock-row .lbl { color: var(--ink-3); }
+  .mock-row .val { color: var(--ink); font-weight: 600; font-family: var(--font-mono); }
+  .mock-row .val.ok { color: var(--ok); }
+  .mock-row .val.warn { color: var(--warn); }
+
+  .mock-tag {
+    display: inline-block;
+    background: var(--paper-2);
+    border-radius: var(--r-pill);
+    padding: 3px 9px;
+    font-size: 10px; font-weight: 500;
+    color: var(--ink-2);
+    margin-right: 4px;
+  }
+
+  .mock-floating {
+    position: absolute;
+    background: var(--paper-0);
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-3);
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+  .mock-floating.alert {
+    bottom: -22px; left: -28px;
+    width: 240px;
+    border-left: 3px solid var(--alert);
+  }
+  .mock-floating.alert .label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--alert); margin-bottom: 4px;
+  }
+  .mock-floating.alert .body { color: var(--ink-2); line-height: 1.4; }
+
+  .mock-floating.whats {
+    top: 20px; right: -34px;
+    width: 220px;
+    border-left: 3px solid #25D366;
+  }
+  .mock-floating.whats .label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: #128C7E; margin-bottom: 4px;
+  }
+
+  /* ========== TRUST BAND ========== */
+  .trust {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-1);
+  }
+  .trust-inner {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 36px var(--page-x);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+  }
+  .trust-cell {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 24px;
+    border-left: 1px solid var(--line-2);
+    min-height: 64px;
+  }
+  .trust-cell:first-child { border-left: 0; padding-left: 0; }
+  .trust-cell svg { flex-shrink: 0; width: 44px; height: 44px; }
+  .trust-cell .ic-stroke { stroke: var(--ink); }
+  .trust-cell .ic-accent { stroke: var(--clay-500); }
+  .trust-label {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--ink-4);
+    line-height: 1.5;
+  }
+  .trust-name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink-2);
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  /* ========== SECTION GENERIC ========== */
+  section.band { padding: 96px 0; }
+  .container {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 var(--page-x);
+  }
+  .section-head { max-width: 760px; margin-bottom: 56px; }
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--clay-700);
+    margin-bottom: 18px;
+  }
+  .section-eyebrow::before {
+    content: '§'; font-family: var(--font-serif); font-size: 14px;
+  }
+  .section-head h2 {
+    font-family: var(--font-serif);
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .section-head h2 em {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    color: var(--clay-700);
+  }
+  .section-head p {
+    font-size: 17px; line-height: 1.55; color: var(--ink-3);
+    max-width: 620px;
+  }
+
+  /* ========== PROBLEM SECTION ========== */
+  .problem {
+    background: var(--ink);
+    color: var(--paper-0);
+  }
+  .problem .section-eyebrow { color: var(--clay-300); }
+  .problem .section-eyebrow::before { color: var(--clay-300); }
+  .problem h2 { color: var(--paper-0); }
+  .problem h2 em { color: var(--clay-300); }
+  .problem .section-head p { color: var(--paper-2); }
+
+  .questions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .question {
+    padding: 32px 32px 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 24px;
+  }
+  .question:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.1); padding-right: 48px; }
+  .question:nth-child(even) { padding-left: 48px; padding-right: 0; }
+  .question-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--clay-300);
+    flex-shrink: 0;
+    width: 36px;
+  }
+  .question-q {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 400;
+    color: var(--paper-0);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .question-a {
+    font-size: 13px;
+    color: var(--paper-3);
+    line-height: 1.5;
+  }
+
+  /* ========== MODULES ========== */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .module {
+    background: var(--paper-0);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease;
+  }
+  .module:hover { border-color: var(--line-2); }
+  .module .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-4);
+    margin-bottom: 16px;
+    letter-spacing: 0.06em;
+  }
+  .module h3 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .module p {
+    color: var(--ink-3);
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .module ul {
+    list-style: none;
+    padding: 0; margin: 0 0 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .module li {
+    font-size: 13px; color: var(--ink-2);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .module li::before {
+    content: '';
+    position: absolute; left: 0; top: 8px;
+    width: 8px; height: 1px;
+    background: var(--ink-3);
+  }
+  .module-foot {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    display: flex; justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .module-foot .tier {
+    color: var(--clay-700);
+  }
+  /* spans */
+  .col-6 { grid-column: span 6; }
+  .col-4 { grid-column: span 4; }
+  .col-12 { grid-column: span 12; }
+
+  .module.feature {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+    color: var(--paper-0);
+    border: none;
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .module.feature h3 { color: var(--paper-0); font-size: 38px; }
+  .module.feature p { color: var(--paper-2); font-size: 16px; }
+  .module.feature ul li { color: var(--paper-1); }
+  .module.feature ul li::before { background: var(--paper-3); }
+  .module.feature .num { color: var(--clay-300); }
+  .module.feature .module-foot { border-top-color: rgba(255,255,255,0.15); color: var(--paper-3); }
+  .module.feature .module-foot .tier { color: var(--clay-300); }
+
+  /* ========== HOW IT WORKS ========== */
+  .how {
+    background: var(--paper-1);
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 16px;
+  }
+  .flow-step {
+    padding: 32px 28px;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .flow-step:last-child { border-right: 0; }
+  .flow-step .step-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--clay-700);
+    margin-bottom: 14px;
+    letter-spacing: 0.04em;
+  }
+  .flow-step h4 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .flow-step p {
+    font-size: 13px;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+  .flow-step .icon {
+    width: 32px; height: 32px;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+
+  /* ========== DEMO / CITY BRIEFING ========== */
+  .demo-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .demo-text h2 { font-size: 48px; }
+  .demo-text .quote {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.35;
+    color: var(--ink-2);
+    border-left: 2px solid var(--clay-500);
+    padding-left: 24px;
+    margin: 32px 0;
+  }
+  .demo-frame {
+    background: var(--ink);
+    border-radius: var(--r-xl);
+    padding: 24px;
+    box-shadow: var(--shadow-4);
+  }
+  .phone {
+    background: var(--paper-0);
+    border-radius: var(--r-lg);
+    padding: 18px;
+    height: 540px;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-head {
+    padding-bottom: 14px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .phone-head .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-500);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 600; font-size: 14px;
+  }
+  .phone-head .name { font-size: 14px; font-weight: 600; }
+  .phone-head .status { font-size: 11px; color: var(--ok); }
+
+  .msg {
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .msg.in {
+    background: var(--paper-2);
+    padding: 10px 14px;
+    border-radius: 14px 14px 14px 4px;
+    max-width: 78%;
+    color: var(--ink-2);
+  }
+  .msg.out {
+    background: #DCF8C6;
+    padding: 10px 14px;
+    border-radius: 14px 14px 4px 14px;
+    max-width: 78%;
+    color: var(--ink-2);
+    margin-left: auto;
+  }
+  .msg.out strong { font-weight: 700; }
+  .msg.attach {
+    background: var(--paper-1);
+    border: 1px solid var(--line);
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 88%;
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .msg.attach .pdf-icon {
+    width: 36px; height: 44px;
+    background: var(--alert);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 9px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .msg.attach .pdf-meta { font-size: 12px; line-height: 1.4; }
+  .msg.attach .pdf-meta strong { display: block; color: var(--ink); }
+  .msg.attach .pdf-meta span { color: var(--ink-4); font-size: 11px; }
+
+  .msg-time { font-size: 9px; color: var(--ink-4); text-align: right; margin-top: -4px; margin-bottom: 12px;}
+
+  .typing {
+    display: inline-flex;
+    gap: 3px;
+    background: var(--paper-2);
+    padding: 12px 16px;
+    border-radius: 14px 14px 14px 4px;
+  }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ink-4);
+    animation: bounce 1.2s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* ========== CITY MAP / DATA ========== */
+  .map-section {
+    background: var(--paper-0);
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: stretch;
+  }
+  .map-mock {
+    background: var(--paper-1);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    position: relative;
+    aspect-ratio: 5/4;
+    overflow: hidden;
+  }
+  .map-mock svg { width: 100%; height: 100%; }
+
+  /* ========== SALA DE SITUAÇÃO (dashboard mock) ========== */
+  .sit-mock { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-4); border: 1px solid var(--line-2); }
+  .sit-shell {
+    background: #0a0d12;
+    color: #e6e8eb;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    padding: 26px 28px 30px;
+  }
+  .sit-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .sit-title {
+    font-family: var(--font-serif);
+    font-size: 28px; font-weight: 500;
+    color: #f3f4f6;
+    letter-spacing: -0.015em;
+    margin: 0 0 4px;
+  }
+  .sit-subtitle { font-size: 13px; color: #6f7782; }
+  .sit-export {
+    background: #1d3a8a;
+    background: linear-gradient(180deg, #1e3a8a 0%, #1a3375 100%);
+    color: #e6e8eb;
+    border: 1px solid #2a4a9c;
+    padding: 8px 14px 8px 12px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 8px;
+    cursor: pointer;
+  }
+  .sit-export svg { width: 12px; height: 12px; }
+
+  .sit-hero {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .sit-card {
+    background: #11151b;
+    border: 1px solid #1c2128;
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .sit-card-crise {
+    position: relative;
+    padding: 24px 26px;
+  }
+  .sit-card-crise::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+    border-radius: 0 2px 2px 0;
+  }
+  .sit-pill-crise {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+    border: 1px solid rgba(239,68,68,0.28);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    margin-bottom: 18px;
+  }
+  .sit-pill-crise svg { width: 12px; height: 12px; }
+  .sit-h2 {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.12;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    text-wrap: pretty;
+  }
+  .sit-lead {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #98a1ad;
+    margin: 0 0 22px;
+    max-width: 64ch;
+  }
+  .sit-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .sit-action {
+    background: #0c1015;
+    border: 1px solid #1c2128;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .sit-action-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    color: #f59e0b;
+    margin-bottom: 6px;
+  }
+  .sit-action p { font-size: 12px; color: #b8bfc8; line-height: 1.45; margin: 0; }
+
+  .sit-card-crises .sit-crises-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .sit-crises-title {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: #f3f4f6;
+  }
+  .sit-crises-title svg { width: 14px; height: 14px; color: #ef4444; }
+  .sit-crises-time { font-size: 11px; color: #6f7782; }
+  .sit-crises-list { display: flex; flex-direction: column; gap: 8px; }
+  .sit-crisis {
+    background: #0c1015;
+    border: 1px solid #1c2128;
+    border-left: 3px solid var(--c, #ef4444);
+    border-radius: 7px;
+    padding: 11px 14px;
+  }
+  .sit-crisis-h {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #e6e8eb;
+    margin-bottom: 3px;
+  }
+  .sit-crisis-d {
+    font-size: 11.5px;
+    color: #7a828d;
+    line-height: 1.4;
+  }
+
+  .sit-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .sit-stat {
+    background: #11151b;
+    border: 1px solid #1c2128;
+    border-top: 2px solid var(--c, #ef4444);
+    border-radius: 8px;
+    padding: 13px 15px 16px;
+    min-height: 110px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .sit-stat-head {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11.5px; color: #8a929c;
+  }
+  .sit-stat-head svg { width: 12px; height: 12px; opacity: 0.55; }
+  .sit-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f3f4f6;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-top: 2px;
+  }
+  .sit-stat-value.serif {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+  .sit-stat-foot { font-size: 10.5px; color: #6f7782; margin-top: auto; }
+
+  .sit-onde {
+    background: #11151b;
+    border: 1px solid #1c2128;
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+  }
+  .sit-onde-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .sit-onde-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #f3f4f6;
+  }
+  .sit-onde-title svg { width: 14px; height: 14px; color: #f59e0b; }
+  .sit-onde-sub { font-size: 11px; color: #6f7782; }
+  .sit-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    background: #0c1015;
+    border: 1px solid #1c2128;
+    border-radius: 8px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+  }
+  .sit-row:last-child { margin-bottom: 0; }
+  .sit-rank {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(245,158,11,0.10);
+    border: 1px solid rgba(245,158,11,0.25);
+    color: #f59e0b;
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 600;
+    font-family: var(--font-mono);
+  }
+  .sit-row-body strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f3f4f6;
+    margin-bottom: 3px;
+  }
+  .sit-row-body p {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #8a929c;
+  }
+  .sit-row-body p em {
+    color: #b8bfc8;
+    font-style: normal;
+  }
+  .sit-score {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 500;
+    color: #f3f4f6;
+    line-height: 1;
+    text-align: right;
+    letter-spacing: -0.02em;
+  }
+  .sit-score small {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--c, #f59e0b);
+    margin-top: 5px;
+  }
+
+  @media (max-width: 880px) {
+    .sit-shell { padding: 18px 16px; }
+    .sit-hero { grid-template-columns: 1fr; }
+    .sit-actions { grid-template-columns: 1fr; }
+    .sit-stats { grid-template-columns: repeat(2, 1fr); }
+    .sit-h2 { font-size: 22px; }
+  }
+
+  .ranking {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .ranking-head {
+    display: flex; justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 4px;
+  }
+  .ranking-head .lbl {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .rank-row {
+    display: grid;
+    grid-template-columns: 24px 1fr 80px 64px;
+    gap: 12px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .rank-row .pos {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-4);
+    text-align: center;
+  }
+  .rank-row .city {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .rank-row .city small {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--ink-4);
+    font-weight: 500;
+    margin-top: 2px;
+    letter-spacing: 0;
+  }
+  .rank-row .delta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ok);
+    text-align: right;
+  }
+  .rank-row .delta.down { color: var(--alert); }
+  .rank-row .score {
+    text-align: right;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .rank-row.featured {
+    background: var(--paper-1);
+    margin: 0 -12px;
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ========== PRICING ========== */
+  .pricing {
+    background: var(--paper-1);
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .price-card {
+    background: var(--paper-0);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.featured {
+    background: var(--ink);
+    color: var(--paper-0);
+    border: 1px solid var(--ink);
+    position: relative;
+  }
+  .price-card.featured::before {
+    content: 'MAIS RECOMENDADO';
+    position: absolute;
+    top: -10px; left: 32px;
+    background: var(--clay-500);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    letter-spacing: 0.14em;
+  }
+  .price-card .tier-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-4);
+    margin-bottom: 12px;
+  }
+  .price-card.featured .tier-name { color: var(--clay-300); }
+  .price-card h3 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -0.015em;
+  }
+  .price-card .desc {
+    font-size: 14px;
+    color: var(--ink-3);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    min-height: 64px;
+  }
+  .price-card.featured .desc { color: var(--paper-2); }
+  .price-card .price {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .price-card .price small {
+    font-size: 14px;
+    color: var(--ink-4);
+    font-weight: 400;
+    margin-left: 6px;
+  }
+  .price-card.featured .price small { color: var(--paper-3); }
+  .price-card .period {
+    font-size: 12px; color: var(--ink-4);
+    margin-bottom: 28px;
+  }
+  .price-card.featured .period { color: var(--paper-3); }
+  .price-card ul {
+    list-style: none; padding: 0; margin: 0 0 32px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .price-card ul li {
+    font-size: 14px; color: var(--ink-2); line-height: 1.45;
+    padding-left: 22px;
+    position: relative;
+  }
+  .price-card.featured ul li { color: var(--paper-1); }
+  .price-card ul li::before {
+    content: '';
+    position: absolute; left: 0; top: 7px;
+    width: 12px; height: 7px;
+    border-left: 1.5px solid var(--ok);
+    border-bottom: 1.5px solid var(--ok);
+    transform: rotate(-45deg);
+  }
+  .price-card .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+  }
+  .price-card.featured .btn-primary {
+    background: var(--paper-0); color: var(--ink);
+  }
+
+  .price-disclaimer {
+    font-size: 12px;
+    color: var(--ink-4);
+    text-align: center;
+    line-height: 1.6;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ========== PLATFORM TOUR ========== */
+  .platform-tour { padding: 120px 0; background: var(--paper-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .platform-tour .section-head { max-width: 760px; margin: 0 auto 64px; text-align: center; }
+  .platform-tour h2 { font-size: 48px; margin-bottom: 18px; }
+  .platform-tour h2 em { font-style: italic; font-family: var(--font-editorial); color: var(--clay-500); }
+  .platform-tour .section-head p { font-size: 17px; color: var(--ink-3); line-height: 1.55; }
+  .tour-block { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: start; margin-bottom: 80px; }
+  .tour-text { position: sticky; top: 40px; }
+  .tour-num { font-family: var(--font-mono); font-size: 11px; color: var(--clay-500); text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 14px; }
+  .tour-text h3 { font-size: 38px; margin-bottom: 14px; }
+  .tour-lead { font-size: 17px; line-height: 1.55; color: var(--ink-2); margin-bottom: 24px; }
+  .tour-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
+  .tour-list li { font-size: 14px; line-height: 1.55; color: var(--ink-3); padding-left: 18px; position: relative; }
+  .tour-list li::before { content: '—'; position: absolute; left: 0; color: var(--clay-500); }
+  .tour-list strong { color: var(--ink); font-weight: 600; }
+  .tour-stat { background: var(--paper-0); border: 1px solid var(--line); border-left: 3px solid var(--clay-500); padding: 14px 18px; font-size: 14px; line-height: 1.5; color: var(--ink-2); border-radius: 4px; }
+  .tour-stat strong { color: var(--clay-700); }
+
+  .tour-mock { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-4); border: 1px solid var(--line-2); }
+  .mock-chrome { background: #1f1d1c; padding: 10px 14px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #000; }
+  .mock-dots { display: flex; gap: 6px; }
+  .mock-dots span { width: 11px; height: 11px; border-radius: 50%; background: #444; }
+  .mock-dots span:nth-child(1) { background: #ff5f57; }
+  .mock-dots span:nth-child(2) { background: #febc2e; }
+  .mock-dots span:nth-child(3) { background: #28c840; }
+  .mock-url { font-family: var(--font-mono); font-size: 11px; color: #888; background: #2a2826; padding: 4px 12px; border-radius: 4px; flex: 1; text-align: center; }
+
+  .app-shell { display: grid; grid-template-columns: 200px 1fr; background: #0b0d10; color: #e6e8eb; min-height: 620px; font-family: var(--font-sans); font-size: 13px; }
+  .app-side { background: #0e1115; border-right: 1px solid #1c2128; padding: 16px 12px; }
+  .app-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; padding: 4px 6px; }
+  .app-logo-icon { width: 22px; height: 22px; background: #1a1d22; border: 1px solid #2a2f37; border-radius: 4px; display: grid; place-items: center; color: #888; font-size: 11px; }
+  .app-logo-text { font-family: var(--font-serif); font-size: 16px; color: #e6e8eb; }
+  .app-side-eyebrow { font-size: 9px; color: #5a6168; letter-spacing: 0.18em; padding: 0 8px; margin-bottom: 8px; font-weight: 700; }
+  .app-nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav-i { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; color: #9ba2aa; font-size: 12px; cursor: pointer; }
+  .nav-i .ni { width: 14px; opacity: 0.7; font-size: 11px; }
+  .nav-i.active { background: #16191e; color: #e6e8eb; border: 1px solid #232830; }
+  .nav-i.active .ni { color: #f59e0b; opacity: 1; }
+
+  .app-main { padding: 20px 22px 28px; overflow: hidden; }
+  .app-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+  .app-title { font-family: var(--font-serif); font-size: 24px; color: #f3f4f6; font-weight: 500; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .app-sub { font-size: 12px; color: #8a929c; }
+  .app-btn-export { background: #16191e; border: 1px solid #2a3038; color: #e6e8eb; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+  .app-filters { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .app-filter { background: #16191e; border: 1px solid #232830; color: #c8cdd4; font-size: 11px; padding: 6px 10px; border-radius: 6px; display: flex; align-items: center; gap: 6px; }
+  .app-filter span { color: #5a6168; }
+  .app-filter.ghost { background: transparent; border-color: #2a3038; color: #8a929c; }
+  .app-counter { margin-left: auto; font-size: 11px; color: #6b7280; }
+  .app-banner { background: linear-gradient(180deg,#1a1d22,#15181c); border: 1px solid #2a3038; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .app-banner-l { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #c8cdd4; }
+  .banner-icon { width: 22px; height: 22px; background: #5b21b6; color: #c4b5fd; border-radius: 6px; display: grid; place-items: center; font-size: 11px; }
+  .app-btn-gerar { background: #6d28d9; color: #fff; border: 0; padding: 7px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; letter-spacing: 0.04em; }
+  .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .vp-card { background: #16191e; border: 1px solid #232830; border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 190px; }
+  .vp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .vp-tag { font-size: 8.5px; padding: 3px 6px; border-radius: 3px; font-weight: 700; letter-spacing: 0.04em; }
+  .tag-orange { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .tag-cyan { background: rgba(34,211,238,0.12); color: #22d3ee; border: 1px solid rgba(34,211,238,0.3); }
+  .tag-cyan2 { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+  .tag-red { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+  .tag-green { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+  .tag-greendk { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+  .tag-purple { background: rgba(167,139,250,0.14); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+  .vp-date { font-size: 10px; color: #6b7280; margin-top: -2px; }
+  .vp-text { font-size: 11.5px; line-height: 1.45; color: #c8cdd4; flex: 1; margin: 0; }
+  .vp-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .vp-mood { font-size: 10px; }
+  .vp-mood.positive { color: #4ade80; }
+  .vp-mood.neutral { color: #38bdf8; }
+  .vp-mood.urgent { color: #f59e0b; }
+  .vp-status { font-size: 9.5px; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+  .vp-status.andamento { background: rgba(245,158,11,0.1); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .vp-status.aberto { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+
+  /* ========== RADAR MG mock ========== */
+  .radar-shell { background: #0a0d12; color: #e6e8eb; font-family: var(--font-sans); padding: 22px 24px 24px; min-height: 620px; }
+  .radar-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 16px; }
+  .radar-h-l { display: flex; align-items: flex-start; gap: 10px; }
+  .radar-icon { width: 26px; height: 26px; color: #38bdf8; flex: 0 0 auto; margin-top: 2px; }
+  .radar-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: #f3f4f6; margin: 0 0 2px; letter-spacing: -0.01em; }
+  .radar-sub { font-size: 11.5px; color: #6f7782; }
+  .radar-search { display: grid; grid-template-columns: 1fr 130px 110px; gap: 10px; margin-bottom: 14px; }
+  .radar-input { background: #11151b; border: 1px solid #1c2128; border-radius: 7px; padding: 9px 14px; font-size: 12.5px; color: #e6e8eb; display: flex; align-items: center; }
+  .radar-input.ph { color: #6f7782; }
+  .radar-search .radar-btn { background: #1d3a8a; border: 1px solid #2a4a9c; color: #e6e8eb; border-radius: 7px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .radar-map { position: relative; background: #08090c; border: 1px solid #1c2128; border-radius: 8px; height: 220px; overflow: hidden; margin-bottom: 12px; }
+  .radar-map svg { width: 100%; height: 100%; display: block; }
+  .radar-zoom { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; gap: 1px; background: #11151b; border: 1px solid #1c2128; border-radius: 5px; overflow: hidden; }
+  .radar-zoom button { width: 22px; height: 22px; background: transparent; border: 0; color: #c8cdd4; font-size: 14px; cursor: pointer; }
+  .radar-grid3 { display: grid; grid-template-columns: 1.1fr 1.1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  @media (max-width: 1100px) { .radar-grid3 { grid-template-columns: 1fr 1fr; } .radar-card.ibge { grid-column: 1 / -1; } }
+  .radar-card { background: #11151b; border: 1px solid #1c2128; border-radius: 8px; padding: 14px 16px; }
+  .radar-card.media { border-left: 3px solid #38bdf8; }
+  .radar-card.voz   { border-left: 3px solid #22c55e; }
+  .radar-card.ibge  { border-left: 3px solid #6366f1; padding-bottom: 8px; }
+  .radar-card-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 8px; flex-wrap: wrap; }
+  .radar-card.media .lbl { color: #38bdf8; }
+  .radar-card.voz   .lbl { color: #22c55e; }
+  .radar-card.ibge  .lbl { color: #818cf8; background: rgba(99,102,241,0.10); border: 1px solid rgba(99,102,241,0.3); padding: 3px 8px; border-radius: 4px; font-size: 9.5px; }
+  .radar-card-tag { font-size: 10px; color: #b8bfc8; }
+  .radar-card p { font-size: 11.5px; line-height: 1.5; color: #b8bfc8; margin: 0 0 8px; }
+  .radar-card-foot { font-size: 10.5px; color: #6f7782; display: flex; gap: 12px; }
+  .radar-city-name { font-family: var(--font-serif); font-size: 18px; color: #f3f4f6; margin: 4px 0 0; }
+  .radar-city-uf { font-size: 9.5px; color: #6f7782; letter-spacing: 0.10em; }
+  .radar-stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+  .radar-stat { display: flex; align-items: center; gap: 8px; }
+  .radar-stat-ic { width: 22px; height: 22px; background: rgba(99,102,241,0.12); color: #818cf8; border-radius: 5px; display: grid; place-items: center; font-size: 11px; }
+  .radar-stat-v { font-size: 12.5px; font-weight: 700; color: #f3f4f6; line-height: 1.1; white-space: nowrap; }
+  .radar-stat-l { font-size: 8.5px; color: #6f7782; letter-spacing: 0.10em; }
+  .radar-opp { background: #14110a; border: 1px solid #3a2c11; border-left: 3px solid #f59e0b; border-radius: 7px; padding: 11px 14px; margin-bottom: 12px; }
+  .radar-opp-head { font-size: 10.5px; color: #f59e0b; font-weight: 700; letter-spacing: 0.10em; margin-bottom: 6px; }
+  .radar-opp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 11.5px; color: #c8cdd4; }
+  .radar-opp-grid li { padding-left: 10px; position: relative; list-style: none; }
+  .radar-opp-grid li::before { content: '•'; position: absolute; left: 0; color: #f59e0b; }
+  .radar-temas-head { font-size: 10.5px; letter-spacing: 0.16em; font-weight: 700; color: #6f7782; margin-bottom: 8px; }
+  .radar-temas { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .radar-tema { background: #11151b; border: 1px solid #1c2128; border-radius: 6px; padding: 10px 12px; }
+  .radar-tema-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .radar-tema-head strong { font-size: 12px; color: #f3f4f6; }
+  .radar-tema-pill { font-size: 8.5px; padding: 2px 6px; border-radius: 3px; font-weight: 700; letter-spacing: 0.06em; }
+  .radar-tema-pill.neg { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .radar-tema-pill.pos { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .radar-tema-cat { font-size: 9px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700; }
+  .radar-tema-cat.saude { background: rgba(34,211,238,0.12); color: #22d3ee; }
+  .radar-tema-cat.seg { background: rgba(239,68,68,0.12); color: #f87171; }
+  .radar-tema-cat.infra { background: rgba(245,158,11,0.12); color: #f59e0b; }
+  .radar-tema-cat.meio { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .radar-tema-cat.eco { background: rgba(167,139,250,0.14); color: #a78bfa; }
+  .radar-tema p { margin: 0; font-size: 10.5px; line-height: 1.4; color: #98a1ad; }
+
+  /* ========== SIMULADOR mock ========== */
+  .sim-shell { background: #0a0d12; color: #e6e8eb; font-family: var(--font-sans); padding: 22px 24px 24px; min-height: 620px; }
+  .sim-prio { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .sim-pcard { background: #11151b; border: 1px solid #1c2128; border-top: 2px solid var(--c, #ef4444); border-radius: 8px; padding: 13px 16px 14px; }
+  .sim-pcard-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 10.5px; color: #8a929c; }
+  .sim-pcard-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c, #ef4444); }
+  .sim-pcard-v { font-family: var(--font-serif); font-size: 22px; color: var(--c, #ef4444); font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 4px; white-space: nowrap; }
+  .sim-pcard-foot { font-size: 10.5px; color: #6f7782; }
+  .sim-proj { background: #11151b; border: 1px solid #1c2128; border-radius: 9px; padding: 16px 18px; margin-bottom: 12px; }
+  .sim-proj-h { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: #f3f4f6; margin-bottom: 12px; }
+  .sim-proj-h .ic { color: #38bdf8; }
+  .sim-proj-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 12px; margin-bottom: 8px; }
+  .sim-proj-row strong { white-space: nowrap; }
+  .sim-proj-row .meta { font-size: 11px; }
+  .sim-proj-row strong { color: #f3f4f6; font-weight: 600; }
+  .sim-proj-row .meta { color: #6f7782; }
+  .sim-proj-row .meta b { color: #f59e0b; font-family: var(--font-mono); font-weight: 700; }
+  .sim-bar { height: 18px; background: #08090c; border-radius: 4px; overflow: hidden; }
+  .sim-bar-fill { height: 100%; background: linear-gradient(90deg, #f97316 0%, #f59e0b 100%); display: flex; align-items: center; padding-left: 10px; font-size: 10.5px; font-weight: 700; color: #1a1614; font-family: var(--font-mono); }
+  .sim-table { background: #11151b; border: 1px solid #1c2128; border-radius: 9px; padding: 14px 16px; }
+  .sim-table-h { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: #f3f4f6; margin-bottom: 10px; }
+  .sim-table-h .ic { color: #f59e0b; }
+  .sim-filters { display: flex; gap: 8px; margin-bottom: 10px; }
+  .sim-filter { background: #0c1015; border: 1px solid #1c2128; border-radius: 5px; padding: 5px 10px; font-size: 11px; color: #c8cdd4; flex: 0 0 auto; }
+  .sim-filter.search { flex: 1; color: #6f7782; }
+  .sim-thead, .sim-trow { display: grid; grid-template-columns: 22px 78px 1.5fr 70px 70px 60px 90px; gap: 8px; align-items: center; font-size: 10.5px; }
+  .sim-thead { color: #6f7782; padding: 6px 0; border-bottom: 1px solid #1c2128; font-weight: 600; }
+  .sim-thead .right { text-align: right; }
+  .sim-trow { padding: 9px 0; border-bottom: 1px solid #14181e; }
+  .sim-trow:last-child { border-bottom: 0; }
+  .sim-pill-prio { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 3px 6px; border-radius: 4px; letter-spacing: 0.03em; white-space: nowrap; }
+  .sim-pill-prio.max { color: #f87171; background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.25); }
+  .sim-cidade strong { display: block; color: #f3f4f6; font-size: 11.5px; font-weight: 600; line-height: 1.2; }
+  .sim-cidade small { display: block; color: #6f7782; font-size: 9.5px; line-height: 1.2; margin-top: 1px; }
+  .sim-regiao { color: #c8cdd4; }
+  .sim-regiao small { display: block; color: #6f7782; font-size: 10px; }
+  .sim-num { font-family: var(--font-mono); font-weight: 700; text-align: right; color: #e6e8eb; }
+  .sim-num.meta { color: #f59e0b; }
+  .sim-bar2 { height: 7px; background: #08090c; border-radius: 3px; overflow: hidden; }
+  .sim-bar2 > i { display: block; height: 100%; background: linear-gradient(90deg, #ef4444 0%, #f87171 100%); }
+  .sim-status { font-size: 9.5px; font-weight: 700; padding: 4px 7px; border-radius: 12px; text-align: center; white-space: nowrap; }
+  .sim-status.cons { background: rgba(34,197,94,0.10); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+  .sim-status.work { background: rgba(245,158,11,0.10); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+
+  /* ========== PITCH mock (modal-style) ========== */
+  .pitch-mock { background: var(--paper-0); padding: 36px; display: grid; place-items: center; min-height: 620px; }
+  .pitch-modal { width: 100%; max-width: 520px; background: #11151b; border: 1px solid #1c2128; border-radius: 14px; padding: 22px 24px 24px; color: #e6e8eb; font-family: var(--font-sans); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .pitch-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .pitch-h-l { display: flex; align-items: center; gap: 10px; }
+  .pitch-h-ic { width: 22px; height: 22px; color: #a78bfa; }
+  .pitch-h-tt { font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: #f3f4f6; margin: 0; letter-spacing: -0.01em; }
+  .pitch-h-sub { font-size: 11.5px; color: #6f7782; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+  .pitch-x { width: 22px; height: 22px; background: transparent; border: 0; color: #6f7782; font-size: 16px; cursor: pointer; }
+  .pitch-section { margin-bottom: 14px; }
+  .pitch-section h5 { font-size: 10.5px; font-weight: 700; letter-spacing: 0.10em; margin: 0 0 8px; display: flex; align-items: center; gap: 6px; }
+  .pitch-section.pano h5 { color: #38bdf8; }
+  .pitch-section.frase h5 { color: #a78bfa; }
+  .pitch-section.temas h5 { color: #a78bfa; }
+  .pitch-box { background: #0c1015; border: 1px solid #1c2128; border-left: 3px solid #6366f1; border-radius: 7px; padding: 12px 14px; font-size: 12.5px; line-height: 1.55; color: #c8cdd4; }
+  .pitch-box.frase { font-family: var(--font-serif); font-style: italic; text-align: center; font-size: 14px; line-height: 1.45; color: #e6e8eb; padding: 18px 16px; border-left: 0; border: 1px solid #1c2128; }
+  .pitch-tema { background: #0c1015; border: 1px solid #1c2128; border-radius: 7px; padding: 11px 13px; margin-bottom: 7px; }
+  .pitch-tema-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .pitch-tema-tt { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #f3f4f6; }
+  .pitch-pill { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 4px; letter-spacing: 0.06em; border: 1px solid; }
+  .pitch-pill.alta  { color: #f87171; border-color: rgba(239,68,68,0.4); }
+  .pitch-pill.media { color: #f59e0b; border-color: rgba(245,158,11,0.4); }
+  .pitch-line { font-size: 11px; line-height: 1.45; color: #c8cdd4; padding-left: 18px; position: relative; margin-top: 4px; }
+  .pitch-line.falar::before { content: '✓'; position: absolute; left: 0; color: #22c55e; font-weight: 700; }
+  .pitch-line.evitar::before { content: '✕'; position: absolute; left: 0; color: #f87171; font-weight: 700; }
+  .pitch-line strong { color: #4ade80; }
+  .pitch-line.evitar strong { color: #f87171; }
+
+  /* ========== OPERAÇÃO LOCAL — section ========== */
+  .op-section { background: var(--paper-2); padding: 120px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .op-section .section-head { max-width: 820px; margin: 0 auto 56px; text-align: center; }
+  .op-section h2 { font-size: 52px; margin-bottom: 18px; }
+  .op-section h2 em { font-style: italic; font-family: var(--font-editorial); color: var(--clay-500); }
+  .op-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 56px auto 0; max-width: 1080px; }
+  .op-pillar { background: var(--paper-0); border: 1px solid var(--line); border-radius: 12px; padding: 26px 26px 28px; }
+  .op-pillar-num { font-family: var(--font-mono); font-size: 11px; color: var(--clay-500); letter-spacing: 0.18em; margin-bottom: 12px; }
+  .op-pillar h4 { font-family: var(--font-serif); font-size: 22px; line-height: 1.2; color: var(--ink); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .op-pillar p { font-size: 14px; line-height: 1.55; color: var(--ink-3); margin: 0; }
+
+  /* carousel */
+  .op-carousel { position: relative; max-width: 1180px; margin: 0 auto; }
+  .op-carousel-frame { border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-4); border: 1px solid var(--line-2); background: #0a0d12; }
+  .op-mock-chrome { background: #1f1d1c; padding: 10px 14px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #000; }
+  .op-mock-dots { display: flex; gap: 6px; }
+  .op-mock-dots span { width: 11px; height: 11px; border-radius: 50%; background: #444; }
+  .op-mock-dots span:nth-child(1) { background: #ff5f57; }
+  .op-mock-dots span:nth-child(2) { background: #febc2e; }
+  .op-mock-dots span:nth-child(3) { background: #28c840; }
+  .op-mock-url { font-family: var(--font-mono); font-size: 11px; color: #888; background: #2a2826; padding: 4px 12px; border-radius: 4px; flex: 1; text-align: center; }
+  .op-mock-step { font-family: var(--font-mono); font-size: 10px; color: #666; letter-spacing: 0.10em; text-transform: uppercase; }
+  .op-track { display: flex; transition: transform .55s cubic-bezier(.7,.05,.25,1); }
+  .op-slide { flex: 0 0 100%; min-width: 0; }
+  .op-shell { background: #0a0d12; color: #e6e8eb; font-family: var(--font-sans); padding: 22px 24px 28px; min-height: 620px; }
+
+  .op-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .op-stat { background: #11151b; border: 1px solid #1c2128; border-top: 2px solid var(--c, #22c55e); border-radius: 8px; padding: 14px 16px 16px; }
+  .op-stat-h { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #98a1ad; margin-bottom: 6px; }
+  .op-stat-ic { color: var(--c, #22c55e); font-size: 13px; }
+  .op-stat-v { font-size: 32px; font-weight: 700; color: #f3f4f6; line-height: 1; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .op-stat-foot { font-size: 11px; color: #6f7782; }
+
+  .op-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .op-card { background: #11151b; border: 1px solid #1c2128; border-radius: 10px; padding: 18px 20px; }
+  .op-card h5 { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #f3f4f6; margin: 0 0 14px; font-weight: 600; }
+  .op-card h5 .ic.g { color: #22c55e; } .op-card h5 .ic.w { color: #25D366; }
+  .op-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .op-input { background: #0c1015; border: 1px solid #1c2128; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #6f7782; }
+  .op-input.full { grid-column: 1/-1; }
+  .op-btn-save { background: linear-gradient(180deg, #1e3a8a, #1a3375); border: 1px solid #2a4a9c; color: #e6e8eb; border-radius: 7px; padding: 11px; font-size: 12.5px; font-weight: 600; text-align: center; margin: 8px 0 6px; }
+  .op-card-foot { font-size: 11px; color: #6f7782; line-height: 1.45; }
+  .op-oper { background: #0c1015; border: 1px solid #1c2128; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; gap: 12px; }
+  .op-oper:last-child { margin-bottom: 0; }
+  .op-oper strong { display: block; font-size: 14px; color: #f3f4f6; margin-bottom: 4px; font-weight: 600; }
+  .op-oper p { margin: 0 0 2px; font-size: 11.5px; color: #98a1ad; line-height: 1.4; }
+  .op-pill-ativo { font-size: 9.5px; font-weight: 700; color: #22c55e; border: 1px solid rgba(34,197,94,0.3); padding: 3px 9px; border-radius: 4px; letter-spacing: 0.06em; height: fit-content; }
+
+  .op-chamados-title { font-size: 14px; font-weight: 600; color: #f3f4f6; margin: 0 0 12px; }
+  .op-chamado { background: #0c1015; border: 1px solid #1c2128; border-left: 3px solid var(--c, #6366f1); border-radius: 8px; padding: 14px 16px 14px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 130px; gap: 16px; }
+  .op-chamado:last-child { margin-bottom: 0; }
+  .op-cham-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .op-tag-lid { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; }
+  .op-tag-reu { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; }
+  .op-cham-city { font-size: 14px; font-weight: 700; color: #f3f4f6; }
+  .op-cham-time { font-size: 11px; color: #6f7782; }
+  .op-cham-text { font-size: 12px; color: #b8bfc8; line-height: 1.5; margin: 0 0 10px; }
+  .op-chips { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .op-chip { background: #11151b; border: 1px solid #1c2128; color: #98a1ad; font-size: 10.5px; padding: 3px 10px; border-radius: 12px; }
+  .op-next { background: #0a1530; border: 1px solid #1e3a8a; border-left: 3px solid #3b82f6; border-radius: 6px; padding: 9px 12px; font-size: 11.5px; color: #c8cdd4; margin-bottom: 10px; }
+  .op-next strong { color: #f3f4f6; }
+  .op-actions { display: flex; gap: 8px; }
+  .op-act { font-size: 11.5px; font-weight: 600; padding: 8px 12px; border-radius: 6px; border: 1px solid; display: inline-flex; align-items: center; gap: 6px; }
+  .op-act.task { color: #f59e0b; border-color: rgba(245,158,11,0.4); }
+  .op-act.wa { color: #25D366; border-color: rgba(37,211,102,0.4); }
+  .op-act.radar { color: #c8cdd4; border-color: #2a3038; }
+  .op-side { text-align: right; }
+  .op-side .who { font-size: 11.5px; color: #c8cdd4; font-weight: 600; }
+  .op-side .ch { font-size: 10.5px; color: #6f7782; margin: 2px 0 8px; }
+  .op-side .convbtn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #25D366; border: 1px solid rgba(37,211,102,0.4); padding: 5px 10px; border-radius: 5px; }
+
+  /* Modal slide */
+  .op-modal-slide { display: grid; grid-template-columns: 1fr 1.05fr; gap: 14px; }
+  .op-modal-left { background: #11151b; border: 1px solid #1c2128; border-radius: 10px; padding: 18px 20px; }
+  .op-modal-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .op-modal-tt { color: #25D366; font-family: var(--font-serif); font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin: 0; }
+  .op-modal-sub { font-size: 11px; color: #98a1ad; margin-top: 4px; }
+  .op-modal-sub b { color: #f59e0b; font-weight: 600; }
+  .op-modal-x { color: #6f7782; font-size: 14px; background: transparent; border: 0; cursor: pointer; }
+  .op-orig { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.25); border-radius: 7px; padding: 11px 13px; font-size: 11.5px; color: #c8cdd4; line-height: 1.5; margin-bottom: 14px; }
+  .op-orig b { color: #f59e0b; }
+  .op-msgs-h { font-size: 10px; color: #6f7782; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 8px; }
+  .op-msgs { background: #08090c; border: 1px solid #14181e; border-radius: 7px; padding: 10px; max-height: 180px; overflow: hidden; margin-bottom: 14px; }
+  .op-bub { background: #005c4b; color: #e9edef; border-radius: 8px; padding: 8px 10px 6px; font-size: 11px; line-height: 1.45; margin-bottom: 6px; max-width: 88%; margin-left: auto; }
+  .op-bub small { display: block; color: rgba(255,255,255,0.55); font-size: 9px; text-align: right; margin-top: 4px; }
+  .op-bub .calev { color: #a7f3d0; word-break: break-all; font-family: var(--font-mono); font-size: 9px; }
+  .op-tpls-h { font-size: 10px; color: #6f7782; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 8px; }
+  .op-tpls { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .op-tpl { background: #11151b; border: 1px solid #232830; color: #c8cdd4; font-size: 11px; padding: 6px 11px; border-radius: 14px; }
+  .op-textarea { background: #08090c; border: 1px solid #1c2128; border-radius: 6px; padding: 10px 12px; min-height: 80px; font-size: 11.5px; color: #c8cdd4; line-height: 1.5; }
+  .op-textarea.empty { color: #6f7782; }
+  .op-dest { font-size: 11px; color: #98a1ad; margin: 8px 0 0; }
+  .op-dest b { color: #f3f4f6; font-family: var(--font-mono); }
+
+  .op-modal-right { background: #11151b; border: 1px solid #1c2128; border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; }
+  .op-cal-h { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .op-cal-cb { width: 14px; height: 14px; background: #1d3a8a; border: 1px solid #2a4a9c; border-radius: 3px; display: grid; place-items: center; color: #fff; font-size: 9px; }
+  .op-cal-cb.off { background: transparent; }
+  .op-cal-tt { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #f3f4f6; font-weight: 600; }
+  .op-cal-g { color: #ea4335; font-weight: 700; font-family: var(--font-serif); font-size: 14px; }
+  .op-cal-status { margin-left: auto; font-size: 11px; color: #22c55e; display: flex; align-items: center; gap: 4px; }
+  .op-cal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .op-cal-field { display: flex; flex-direction: column; gap: 4px; }
+  .op-cal-lbl { font-size: 9.5px; color: #6f7782; letter-spacing: 0.14em; font-weight: 700; }
+  .op-cal-val { background: #08090c; border: 1px solid #1c2128; border-radius: 6px; padding: 9px 11px; font-size: 12px; color: #f3f4f6; font-family: var(--font-mono); }
+  .op-cal-banner { border-radius: 6px; padding: 9px 12px; font-size: 11.5px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+  .op-cal-banner.ok { background: rgba(34,197,94,0.10); border: 1px solid rgba(34,197,94,0.35); color: #4ade80; }
+  .op-cal-banner.no { background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.35); color: #f87171; }
+  .op-cal-row { background: #08090c; border: 1px solid #1c2128; border-radius: 6px; padding: 9px 12px; font-size: 11.5px; color: #c8cdd4; margin-bottom: 8px; }
+  .op-cal-row.ph { color: #6f7782; }
+  .op-cal-foot { font-size: 10.5px; color: #6f7782; line-height: 1.45; margin-top: 6px; }
+  .op-cal-conflict { background: #0c1015; border: 1px solid rgba(239,68,68,0.25); border-left: 3px solid #ef4444; border-radius: 6px; padding: 10px 12px; font-size: 11px; color: #c8cdd4; margin-bottom: 10px; line-height: 1.5; }
+  .op-cal-conflict b { color: #f87171; }
+  .op-modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: auto; padding-top: 14px; }
+  .op-cancel { background: transparent; border: 1px solid #2a3038; color: #c8cdd4; font-size: 12px; padding: 9px 18px; border-radius: 6px; }
+  .op-send { background: linear-gradient(180deg, #16a34a, #15803d); border: 1px solid #166534; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 18px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; }
+  .op-send.disabled { background: #2a3038; border-color: #2a3038; color: #6f7782; }
+
+  /* carousel controls */
+  .op-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; max-width: 1180px; margin-left: auto; margin-right: auto; }
+  .op-arrow { width: 48px; height: 48px; border-radius: 50%; background: var(--paper-0); border: 1px solid var(--line-2); color: var(--ink); font-size: 18px; cursor: pointer; display: grid; place-items: center; transition: all .2s; }
+  .op-arrow:hover { background: var(--ink); color: var(--paper-0); border-color: var(--ink); }
+  .op-dots { display: flex; gap: 8px; }
+  .op-dot { width: 32px; height: 4px; background: var(--ink-5); border-radius: 2px; cursor: pointer; border: 0; padding: 0; transition: background .2s; }
+  .op-dot.active { background: var(--clay-500); }
+  .op-step-label { font-size: 12px; color: var(--ink-3); font-family: var(--font-mono); letter-spacing: 0.10em; text-transform: uppercase; }
+
+  @media (max-width: 980px) {
+    .op-pillars { grid-template-columns: 1fr; }
+    .op-stats { grid-template-columns: repeat(2, 1fr); }
+    .op-row2, .op-modal-slide { grid-template-columns: 1fr; }
+    .op-form { grid-template-columns: 1fr; }
+    .op-cal-grid { grid-template-columns: 1fr; }
+    .op-chamado { grid-template-columns: 1fr; }
+    .op-side { text-align: left; }
+  }
+
+  /* ========== JF CAROUSEL (real screenshots) ========== */
+  .jf-carousel { display: flex; flex-direction: column; align-items: center; gap: 22px; width: 100%; }
+  .jf-stage { position: relative; width: 100%; max-width: 440px; overflow: hidden; }
+  .jf-track { display: flex; transition: transform .5s cubic-bezier(.7,.05,.25,1); }
+  .jf-slide { flex: 0 0 100%; min-width: 0; height: 620px; display: flex; justify-content: center; align-items: center; }
+  .jf-slide img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; filter: drop-shadow(0 24px 60px rgba(0,0,0,0.18)); }
+
+  /* panel slide — natural-sized HTML scaled to fit */
+  .jf-slide-panel { container-type: size; }
+  .jf-browser { width: 600px; height: 1060px; transform-origin: center center; transform: scale(min(calc(100cqi / 600px), calc(100cqb / 1060px))); background: #0a0d12; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06); display: flex; flex-direction: column; font-family: -apple-system, system-ui, "Segoe UI", sans-serif; color: #e6e8eb; flex-shrink: 0; }
+  .jf-bbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #1a1f26; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .jf-bdot { width: 12px; height: 12px; border-radius: 50%; }
+  .jf-bdot.r { background: #ff5f57; }
+  .jf-bdot.y { background: #febc2e; }
+  .jf-bdot.g { background: #28c840; }
+  .jf-burl { flex: 1; background: #2a2f37; border-radius: 8px; text-align: center; padding: 5px 12px; font-size: 13px; color: #9aa3ad; display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 380px; margin: 0 auto; }
+  .jf-block { font-size: 11px; }
+  .jf-breload { margin-left: 14px; opacity: 0.7; }
+  .jf-bicons { color: #6f7782; font-size: 13px; letter-spacing: 4px; }
+  .jf-bbody { display: flex; flex: 1; min-height: 0; }
+  .jf-pside { width: 220px; background: #0a0d12; border-right: 1px solid rgba(255,255,255,0.04); padding: 18px 0; display: flex; flex-direction: column; }
+  .jf-pside-logo { padding: 0 18px 16px; font-size: 16px; color: #e6e8eb; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.04); margin-bottom: 14px; }
+  .jf-pside-logo strong { font-weight: 600; }
+  .jf-pside-section { padding: 0 18px 6px; font-size: 9px; letter-spacing: 0.18em; color: #5a6573; text-transform: uppercase; }
+  .jf-pside-nav { list-style: none; margin: 0; padding: 4px 8px; flex: 1; }
+  .jf-pside-nav li { padding: 8px 12px; font-size: 12.5px; color: #b3bcc5; border-radius: 6px; margin-bottom: 1px; cursor: default; }
+  .jf-pside-nav li.active { background: #131820; color: #e6e8eb; font-weight: 500; box-shadow: inset 2px 0 0 #22c55e; }
+  .jf-pside-foot { padding: 14px 18px; font-size: 12.5px; color: #b3bcc5; border-top: 1px solid rgba(255,255,255,0.04); }
+
+  .jf-pmain { flex: 1; padding: 28px 34px 32px; overflow: hidden; background: #0a0d12; display: flex; flex-direction: column; }
+  .jf-pcrumb { font-size: 12.5px; color: #6f7782; margin-bottom: 18px; letter-spacing: 0.01em; }
+  .jf-pcrumb strong { color: #e6e8eb; font-weight: 600; }
+  .jf-phead { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; gap: 16px; }
+  .jf-phead h4 { margin: 0 0 6px; font-size: 26px; font-weight: 600; color: #e6e8eb; display: flex; align-items: center; gap: 10px; line-height: 1.1; }
+  .jf-pcheck { color: #22c55e; }
+  .jf-phead p { margin: 0; font-size: 13.5px; color: #6f7782; max-width: 380px; line-height: 1.4; }
+  .jf-prefresh { background: #1d3a8a; color: #fff; border: 0; padding: 11px 18px; border-radius: 8px; font-size: 13px; cursor: pointer; flex-shrink: 0; }
+
+  .jf-pstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .jf-pstat { background: #11151b; border: 1px solid rgba(255,255,255,0.06); border-top: 3px solid var(--c); border-radius: 10px; padding: 16px 14px 14px; }
+  .jf-pstat span { display: block; font-size: 11.5px; color: #98a1ad; margin-bottom: 6px; }
+  .jf-pstat b { display: block; font-size: 38px; font-weight: 700; color: #f3f4f6; line-height: 1; font-family: var(--font-serif); }
+
+  .jf-pfilter { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .jf-ppill { background: #11151b; border: 1px solid rgba(255,255,255,0.08); padding: 8px 14px; font-size: 13px; color: #b3bcc5; border-radius: 8px; }
+  .jf-pcount { font-size: 12px; color: #f59e0b; font-weight: 600; letter-spacing: 0.02em; }
+
+  .jf-ptask { background: #11151b; border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid var(--c); border-radius: 10px; padding: 18px 22px; margin-bottom: 14px; position: relative; }
+  .jf-ptask.hl { box-shadow: 0 0 0 2px rgba(245,158,11,0.5), 0 16px 40px rgba(245,158,11,0.18); background: linear-gradient(180deg, #1a1408 0%, #11151b 60%); }
+  .jf-ptask.peek { opacity: 0.45; padding: 14px 22px; }
+  .jf-ptask-arrow { position: absolute; left: -54px; top: 22px; color: #ef4444; font-size: 44px; font-weight: 700; line-height: 1; text-shadow: 0 4px 12px rgba(239,68,68,0.5); animation: jf-arrow-bob 1.6s ease-in-out infinite; }
+  @keyframes jf-arrow-bob { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  .jf-ptask-body { min-width: 0; }
+  .jf-ptask-tag { font-size: 11px; font-weight: 700; color: #f59e0b; letter-spacing: 0.06em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .jf-ptask-tag .n { color: #6f7782; }
+  .jf-pnew { background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 10px; letter-spacing: 0.08em; }
+  .jf-ptask-tt { font-size: 17px; font-weight: 600; color: #f3f4f6; line-height: 1.3; margin-bottom: 8px; }
+  .jf-ptask-d { font-size: 13px; color: #98a1ad; line-height: 1.5; margin-bottom: 12px; }
+  .jf-ptask-foot { font-size: 12px; color: #b3bcc5; margin-bottom: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+  .jf-ptask-foot .muted { color: #6f7782; }
+  .jf-poriginchip { background: rgba(37,211,102,0.14); color: #25d366; border: 1px solid rgba(37,211,102,0.35); padding: 3px 9px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .jf-ptask-actrow { display: flex; gap: 8px; }
+  .jf-ptask-actrow button { border: 0; padding: 9px 14px; font-size: 12.5px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .jf-ptask-actrow .and { background: rgba(59,130,246,0.18); color: #60a5fa; border: 1px solid rgba(59,130,246,0.4); }
+  .jf-ptask-actrow .conc { background: rgba(34,197,94,0.16); color: #34d399; border: 1px solid rgba(34,197,94,0.4); }
+
+  .jf-nav { display: flex; align-items: center; gap: 14px; }
+  .jf-arrow { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--paper-0); color: var(--ink); cursor: pointer; font-size: 14px; }
+  .jf-arrow:hover { background: var(--ink); color: var(--paper-0); }
+  .jf-dots { display: flex; gap: 5px; }
+  .jf-dots button { width: 22px; height: 3px; border: 0; padding: 0; background: var(--ink-5); cursor: pointer; }
+  .jf-dots button.active { background: var(--clay-500); }
+
+  /* ========== WHATSAPP PHONE ========== */
+  .wa-mock { background: #f0eee9; padding: 36px; display: grid; place-items: center; min-height: 620px; }
+  .wa-phone { width: 320px; height: 640px; background: #111; border-radius: 44px; padding: 12px 10px; box-shadow: 0 30px 60px rgba(0,0,0,0.35), inset 0 0 0 2px #2a2a2a; position: relative; }
+  .wa-phone::before { content: ''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 88px; height: 24px; background: #000; border-radius: 14px; z-index: 5; }
+  .wa-screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: #0b141a; display: flex; flex-direction: column; position: relative; }
+  .wa-statusbar { display: flex; justify-content: space-between; padding: 8px 24px 4px; font-size: 10px; font-weight: 600; color: #fff; height: 26px; align-items: center; flex: 0 0 auto; }
+  .wa-statusbar .ic { display: flex; gap: 4px; }
+  .wa-header { background: #1f2c34; padding: 8px 12px; display: flex; align-items: center; gap: 8px; flex: 0 0 auto; min-width: 0; }
+  .wa-back { color: #aebac1; font-size: 16px; }
+  .wa-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; font-family: var(--font-serif); }
+  .wa-name { color: #e9edef; font-size: 12.5px; font-weight: 600; line-height: 1.1; white-space: nowrap; }
+  .wa-header > div:nth-child(3) { min-width: 0; flex: 1; }
+  .wa-presence { color: #8696a0; font-size: 10.5px; }
+  .wa-actions { margin-left: auto; display: flex; gap: 10px; color: #aebac1; font-size: 13px; flex: 0 0 auto; }
+  .wa-body { flex: 1; padding: 10px 8px; overflow: hidden; background: #0b141a; background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.02) 0, transparent 30%),
+      radial-gradient(circle at 80% 60%, rgba(255,255,255,0.02) 0, transparent 30%);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .wa-bubble { max-width: 92%; padding: 7px 10px 6px; border-radius: 10px; font-size: 11px; line-height: 1.4; position: relative; word-break: break-word; }
+  .wa-bubble.in  { background: #1f2c34; color: #e9edef; align-self: flex-start; border-top-left-radius: 2px; }
+  .wa-bubble.out { background: #005c4b; color: #e9edef; align-self: flex-end; border-top-right-radius: 2px; }
+  .wa-bubble .time { font-size: 9px; color: #8696a0; display: block; text-align: right; margin-top: 4px; white-space: nowrap; }
+  .wa-bubble.out .time { color: rgba(255,255,255,0.6); }
+  .wa-bubble strong { font-weight: 700; }
+  .wa-bubble .quote { font-style: italic; color: #aebac1; font-size: 11px; display: block; margin: 4px 0 2px; }
+  .wa-bubble.bot { background: #1f2c34; }
+  .wa-bubble.bot .check { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: #25d366; margin-bottom: 4px; }
+  .wa-bubble.bot ul { margin: 4px 0 6px 0; padding-left: 14px; color: #d1d7db; }
+  .wa-bubble.bot li { margin-bottom: 3px; font-size: 11px; line-height: 1.4; }
+  .wa-bubble.bot li strong { color: #f3f4f6; }
+  .wa-voice { display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: #005c4b; border-radius: 10px; align-self: flex-end; max-width: 220px; border-top-right-radius: 2px; }
+  .wa-voice .av { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #b91c1c, #ef4444); flex: 0 0 auto; display: grid; place-items: center; color: #fff; font-size: 11px; font-weight: 700; font-family: var(--font-serif); }
+  .wa-voice .play { color: #e9edef; }
+  .wa-voice .wave { flex: 1; height: 14px; background-image:
+      repeating-linear-gradient(90deg, #88c1b4 0 1.5px, transparent 1.5px 4px);
+    border-radius: 2px;
+  }
+  .wa-voice .wave i { display: block; width: 50%; height: 100%; background-image:
+      repeating-linear-gradient(90deg, #e9edef 0 1.5px, transparent 1.5px 4px);
+  }
+  .wa-voice .meta { display: flex; flex-direction: column; align-items: flex-end; font-size: 9px; color: #aebac1; gap: 1px; }
+
+  .tour-slot { background: var(--paper-0); border: 1px dashed var(--line-2); border-radius: 12px; padding: 36px; }
+  .tour-slot-eyebrow { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; margin-bottom: 18px; text-align: center; }
+  .tour-slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+  .tour-slot-card { background: var(--paper-1); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+  .slot-num { font-family: var(--font-mono); font-size: 11px; color: var(--clay-500); margin-bottom: 8px; }
+  .slot-title { font-family: var(--font-serif); font-size: 18px; color: var(--ink); margin-bottom: 4px; }
+  .slot-desc { font-size: 12px; color: var(--ink-3); }
+  .tour-slot-foot { text-align: center; font-size: 13px; color: var(--ink-3); font-style: italic; }
+
+  /* ========== TESTIMONIAL ========== */
+  .testimonial {
+    background: var(--paper-2);
+    padding: 96px 0;
+  }
+  .testimonial-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 var(--page-x);
+    text-align: center;
+  }
+  .testimonial blockquote {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 36px;
+    line-height: 1.3;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+  .testimonial blockquote::before {
+    content: '“';
+    font-family: var(--font-serif);
+    font-size: 96px;
+    line-height: 0.5;
+    color: var(--clay-500);
+    display: block;
+    margin-bottom: 24px;
+  }
+  .testimonial .attribution {
+    font-size: 13px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .testimonial .attribution strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ========== FAQ ========== */
+  .faq-list { max-width: 820px; }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+  }
+  .faq-q {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .faq-a {
+    font-size: 15px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  /* ========== CTA FINAL ========== */
+  .cta-final {
+    background: var(--ink);
+    color: var(--paper-0);
+    padding: 96px 0;
+    text-align: center;
+  }
+  .cta-final h2 {
+    font-family: var(--font-serif);
+    font-size: 64px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: var(--paper-0);
+    max-width: 880px;
+    margin: 0 auto 24px;
+  }
+  .cta-final h2 em {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    color: var(--clay-300);
+  }
+  .cta-final p {
+    font-size: 18px;
+    color: var(--paper-2);
+    max-width: 620px;
+    margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+  .cta-final .btn-primary {
+    background: var(--paper-0); color: var(--ink); border-color: var(--paper-0);
+  }
+  .cta-final .btn-primary:hover { background: var(--paper-1); }
+  .cta-final .btn-ghost {
+    background: transparent; color: var(--paper-0);
+    border-color: rgba(255,255,255,0.25);
+  }
+  .cta-final .btn-ghost:hover { background: rgba(255,255,255,0.05); }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #0e0c0b;
+    color: var(--paper-3);
+    padding: 64px 0 32px;
+  }
+  .foot-grid {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 var(--page-x);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .foot-grid h5 {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--paper-1);
+    margin: 0 0 18px;
+  }
+  .foot-grid ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .foot-grid li { font-size: 13px; }
+  .foot-grid a { color: var(--paper-3); }
+  .foot-brand p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--paper-3);
+    max-width: 360px;
+    margin-top: 14px;
+  }
+  .foot-bottom {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 24px var(--page-x) 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-4);
+  }
+  /* ========================================================== */
+  /* ========== RESPONSIVE — MOBILE / TABLET PASS ============= */
+  /* ========================================================== */
+
+  /* hamburger button — invisible on desktop */
+  .nav-burger {
+    display: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    width: 40px; height: 40px;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: auto;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--ink);
+    transition: transform 0.22s ease, opacity 0.18s ease;
+    transform-origin: center;
+  }
+  body.nav-open .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  body.nav-open .nav-burger span:nth-child(2) { opacity: 0; }
+  body.nav-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ===== <= 1100px : tablet ===== */
+  @media (max-width: 1100px) {
+    :root { --page-x: 32px; }
+    section.band { padding: 72px 0; }
+    .platform-tour { padding: 80px 0; }
+    .op-section { padding: 80px 0; }
+    .hero-inner { padding: 64px var(--page-x) 56px; }
+    .section-head h2 { font-size: clamp(32px, 5.2vw, 52px); }
+    .section-head { margin-bottom: 40px; }
+    .demo-text h2 { font-size: clamp(30px, 4.8vw, 48px); }
+    .platform-tour h2 { font-size: clamp(30px, 4.8vw, 48px); }
+    .op-section h2 { font-size: clamp(30px, 4.8vw, 52px); }
+    .cta-final h2 { font-size: clamp(34px, 5.4vw, 64px); }
+    .tour-block { grid-template-columns: 1fr; gap: 32px; margin-bottom: 56px; }
+    .tour-text { position: static; }
+    .price-grid { grid-template-columns: 1fr; gap: 18px; }
+    .modules-grid { grid-template-columns: repeat(6, 1fr); }
+  }
+
+  /* ===== <= 820px : mobile ===== */
+  @media (max-width: 820px) {
+    :root { --page-x: 20px; }
+
+    /* topbar */
+    .topbar { font-size: 11px; padding: 8px 0; }
+    .topbar-inner { gap: 8px; flex-wrap: wrap; justify-content: center; text-align: center; }
+
+    /* nav */
+    .nav-inner { padding: 14px var(--page-x); flex-wrap: wrap; gap: 8px; }
+    .brand { font-size: 18px; gap: 10px; }
+    .brand img, .brand-mark { width: 30px; height: 30px; }
+    .brand-sub { font-size: 9px; letter-spacing: 0.14em; }
+    .nav-burger { display: flex; }
+    .nav-links {
+      flex-basis: 100%;
+      flex-direction: column;
+      gap: 0;
+      background: var(--paper-0);
+      border-top: 1px solid var(--line);
+      margin: 12px calc(-1 * var(--page-x)) -14px;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+    body.nav-open .nav-links { max-height: 420px; padding: 4px 0 8px; }
+    .nav-links a { padding: 14px var(--page-x); border-bottom: 1px solid var(--line-soft); font-size: 15px; color: var(--ink); }
+    .nav-cta { gap: 8px; }
+    .nav-cta-entrar { display: none; }
+    .nav-cta .btn-primary { padding: 10px 14px; font-size: 11.5px; letter-spacing: 0.06em; }
+
+    /* hero */
+    section.band { padding: 56px 0; }
+    .hero-inner { padding: 36px var(--page-x) 48px; gap: 32px; }
+    .hero-eyebrow { font-size: 10px; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(34px, 9vw, 52px); margin-bottom: 18px; }
+    .hero p.lead { font-size: 16px; margin-bottom: 28px; }
+    .hero-cta { flex-direction: column; align-items: stretch; gap: 10px; }
+    .hero-cta .btn { justify-content: center; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 18px 18px; margin-top: 40px; padding-top: 22px; }
+    .hero-meta .num { font-size: 28px; }
+    .hero-brain-wrap { width: min(320px, 78vw); margin-top: 8px; margin-right: 0; }
+
+    /* section heads */
+    .section-head h2 { font-size: clamp(28px, 7vw, 40px); }
+    .section-head p { font-size: 15px; }
+    .section-head { margin-bottom: 32px; }
+
+    /* problem / questions */
+    .questions { grid-template-columns: 1fr; }
+
+    /* modules grid (4-col) → 1-col */
+    .modules-grid { grid-template-columns: 1fr; gap: 14px; }
+
+    /* demo */
+    .demo-wrap { grid-template-columns: 1fr; gap: 36px; }
+    .demo-text h2 { font-size: clamp(28px, 6.5vw, 40px); }
+    .demo-wrap > * + * .demo-frame, .demo-frame { border-radius: 12px; }
+
+    /* map */
+    .map-grid { grid-template-columns: 1fr; gap: 32px; }
+
+    /* flow (4 cols) */
+    .flow { grid-template-columns: 1fr 1fr; }
+
+    /* CTA boxes / banners that are 2-col */
+    .demo-wrap, .map-grid { gap: 28px; }
+
+    /* operação local pillars */
+    .op-pillars { grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
+
+    /* pricing */
+    .price-grid { grid-template-columns: 1fr; }
+
+    /* faq */
+    .faq-q { font-size: 18px; }
+    .faq-a { font-size: 14px; }
+
+    /* cta final */
+    .cta-final { padding: 72px 0; }
+    .cta-final h2 { font-size: clamp(28px, 7vw, 44px); }
+    .cta-final p { font-size: 15px; }
+    .cta-final .btn { width: 100%; justify-content: center; }
+    .cta-final > .container > div { flex-direction: column; gap: 10px !important; }
+
+    /* footer */
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px 24px; padding: 0 var(--page-x); }
+    .foot-brand { grid-column: 1 / -1; }
+
+    /* ====== DESKTOP MOCKUPS — escala horizontal ====== */
+    /* envelopes que envolvem cada mockup escuro grande */
+    .tour-mock,
+    .sit-shell,
+    .map-fig,
+    .rank-shell,
+    .op-shell,
+    .sim-shell,
+    .radar-shell,
+    .demo-frame {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tour-mock > *,
+    .sit-shell > *,
+    .rank-shell > *,
+    .op-shell > *,
+    .sim-shell > *,
+    .radar-shell > * { min-width: 720px; }
+    .app-shell { grid-template-columns: 1fr; min-height: 0; min-width: 720px; }
+    .app-side { display: none; }
+    .app-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* radar / sim / op grids — relax para caber no scroll horizontal */
+    .radar-search { grid-template-columns: 1fr; }
+    .radar-grid3 { grid-template-columns: 1fr; }
+    .sim-prio { grid-template-columns: repeat(2, 1fr); }
+    .op-stats { grid-template-columns: repeat(2, 1fr); }
+    .op-row2 { grid-template-columns: 1fr; }
+
+    /* hint scroll */
+    .tour-mock::after,
+    .sit-shell::after { content: ''; }
+  }
+
+  /* ===== <= 480px : phone pequeno ===== */
+  @media (max-width: 480px) {
+    :root { --page-x: 16px; }
+    section.band { padding: 48px 0; }
+    .hero-inner { padding: 28px var(--page-x) 36px; }
+    .hero-meta { grid-template-columns: 1fr; }
+    .hero h1 { font-size: clamp(30px, 9vw, 42px); }
+    .section-head h2 { font-size: clamp(24px, 8vw, 34px); }
+    .flow { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .foot-brand { grid-column: auto; }
+    .btn-lg { padding: 12px 18px; font-size: 14px; }
+    .topbar { display: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ============== TOPBAR ============== -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span><span class="pill"><span class="dot"></span> Eleições 2026 · vagas limitadas por estado</span></span>
+    <span>Brasília · Belo Horizonte · São Paulo · Curitiba</span>
+  </div>
+</div>
+
+<!-- ============== NAV ============== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand">
+      <svg class="brand-mark" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M5 27 L13 18 L21 23 L33 9" stroke="#0E1B2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="5" cy="27" r="2.4" fill="#0E1B2C"/>
+        <circle cx="13" cy="18" r="2.4" fill="#0E1B2C"/>
+        <circle cx="21" cy="23" r="2.4" fill="#0E1B2C"/>
+        <circle cx="33" cy="9" r="2.4" fill="#0E1B2C"/>
+      </svg>
+      <div>
+        Node Data
+        <span class="brand-sub">RADAR ELEITORAL · INTELIGÊNCIA DE CAMPANHA</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#plataforma">Plataforma</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Módulos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="nav-burger" aria-label="Abrir menu" aria-expanded="false" type="button" onclick="(function(b){var open=document.body.classList.toggle('nav-open');b.setAttribute('aria-expanded',open?'true':'false');})(this)">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost nav-cta-entrar">Entrar</a>
+      <a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20agendar%20uma%20apresenta%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener" class="btn btn-primary">Agendar demo</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Para campanhas que escutam antes de falar</div>
+      <h1>O cérebro estratégico da sua <em>campanha</em>, no seu <span class="wa-green">WhatsApp</span>.</h1>
+      <p class="lead">
+        O Radar Eleitoral transforma os recados dos cidadãos, as redes sociais e o histórico de votos em sugestões prontas. Onde ir, o que falar, quem procurar — em 20 segundos, com base em dado, não em intuição.
+      </p>
+      <div class="hero-cta">
+        <a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20agendar%20uma%20apresenta%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener" class="btn btn-primary btn-lg">Solicitar apresentação</a>
+        <a href="#como-funciona" class="btn btn-ghost btn-lg">Ver como funciona →</a>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="num">5.570+</div>
+          <div class="lbl">municípios brasileiros mapeados</div>
+        </div>
+        <div>
+          <div class="num">20s</div>
+          <div class="lbl">para gerar um raio-X estratégico da cidade</div>
+        </div>
+        <div>
+          <div class="num">24/7</div>
+          <div class="lbl">monitoramento de WhatsApp, redes e imprensa regional</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-brain-wrap" aria-hidden="true">
+      <img class="hero-brain-img" src="assets/cerebro.webp" alt="">
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== TRUST ============== -->
+<div class="trust">
+  <div class="trust-inner">
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse class="ic-stroke" cx="20" cy="14" rx="11" ry="4"/>
+        <path class="ic-stroke" d="M9 14v10c0 2.2 4.9 4 11 4s11-1.8 11-4V14"/>
+        <path class="ic-stroke" d="M9 24v8c0 2.2 4.9 4 11 4 2 0 3.9-.2 5.5-.5"/>
+        <circle class="ic-accent" cx="33" cy="34" r="7"/>
+        <path class="ic-accent" d="m30 34 2.3 2.3L37 31.5"/>
+      </svg>
+      <div class="trust-label">Construído sobre<br>dados oficiais e<br>auditáveis</div>
+    </div>
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ic-stroke" d="M6 18 19 10l13 8"/>
+        <path class="ic-stroke" d="M8 18v18M30 18v18M14 22v12M24 22v12M19 22v12M5 36h28"/>
+        <rect class="ic-stroke" x="28" y="20" width="14" height="20" rx="1"/>
+        <path class="ic-stroke" d="M32 26h6M32 30h6M32 34h6"/>
+      </svg>
+      <div class="trust-name">TSE · Histórico<br>eleitoral</div>
+    </div>
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ic-stroke" d="M8 38h32"/>
+        <rect class="ic-stroke" x="11" y="26" width="6" height="12"/>
+        <rect class="ic-stroke" x="21" y="20" width="6" height="18"/>
+        <rect class="ic-stroke" x="31" y="14" width="6" height="24"/>
+        <path class="ic-accent" d="m13 22 8-6 7 4 9-8"/>
+        <circle class="ic-accent" cx="13" cy="22" r="1.5" fill="currentColor"/>
+        <circle class="ic-accent" cx="21" cy="16" r="1.5" fill="currentColor"/>
+        <circle class="ic-accent" cx="28" cy="20" r="1.5" fill="currentColor"/>
+        <circle class="ic-accent" cx="37" cy="12" r="1.5" fill="currentColor"/>
+      </svg>
+      <div class="trust-name">IBGE ·<br>Demografia</div>
+    </div>
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ic-stroke" d="M8 12c0-1.1.9-2 2-2h18c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H17l-6 5v-5h-1c-1.1 0-2-.9-2-2V12Z"/>
+        <circle class="ic-stroke" cx="14" cy="18" r="1" fill="currentColor"/>
+        <circle class="ic-stroke" cx="19" cy="18" r="1" fill="currentColor"/>
+        <circle class="ic-stroke" cx="24" cy="18" r="1" fill="currentColor"/>
+        <path class="ic-stroke" d="M40 22c0-1.1-.9-2-2-2H22c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h13l5 4v-4h0c1.1 0 2-.9 2-2V22Z"/>
+      </svg>
+      <div class="trust-name">WhatsApp<br>Business</div>
+    </div>
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ic-stroke" d="M8 16h6l3-4h14l3 4h6c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V18c0-1.1.9-2 2-2Z"/>
+        <circle class="ic-stroke" cx="24" cy="27" r="7"/>
+        <path class="ic-accent" d="m18 30 4-3 4 2 6-5"/>
+        <circle class="ic-accent" cx="18" cy="30" r="1.3" fill="currentColor"/>
+        <circle class="ic-accent" cx="22" cy="27" r="1.3" fill="currentColor"/>
+        <circle class="ic-accent" cx="26" cy="29" r="1.3" fill="currentColor"/>
+        <circle class="ic-accent" cx="32" cy="24" r="1.3" fill="currentColor"/>
+      </svg>
+      <div class="trust-name">Instagram ·<br>monitoramento</div>
+    </div>
+    <div class="trust-cell">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ic-stroke" d="M8 12h26v26H10c-1.1 0-2-.9-2-2V12Z"/>
+        <path class="ic-stroke" d="M34 18h6v18c0 1.1-.9 2-2 2h-4"/>
+        <rect class="ic-stroke" x="12" y="16" width="8" height="6"/>
+        <path class="ic-stroke" d="M24 16h6M24 20h6M12 26h18M12 30h18M12 34h12"/>
+      </svg>
+      <div class="trust-name">Imprensa<br>regional</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== DEMO ============== -->
+<section class="band" id="demo">
+  <div class="container">
+    <div class="demo-wrap">
+      <div class="demo-text">
+        <div class="section-eyebrow">Veja na prática</div>
+        <h2>Raio-X de <em>qualquer cidade</em> da sua base cadastrada no sistema em segundos.</h2>
+        <p style="font-size: 17px; line-height: 1.55; color: var(--ink-3); margin-bottom: 24px; font-family: &quot;Inter Tight&quot;">
+          O candidato manda áudio ou texto entre viagens e reuniões — e em segundos recebe tudo o que pediu, de qualquer cidade. Nosso agente de IA não só lê: ele é proativo. <strong>Executa, sugere, acompanha.</strong> Como um assessor na palma da mão que nunca descansa e trabalha 24 horas por dia. Candidato nunca mais opera no achismo: dado em tempo real, na mão. E ainda dispara e‑mail, abre tarefa no painel e delega para quem você quiser. Veja o fluxo completo ao lado.
+        </p>
+        <div class="quote">
+          Enquanto seus adversários discutem estratégia em reunião, o candidato decide no WhatsApp em segundos — com dados que ninguém mais tem.
+        </div>
+        <div style="display: flex; gap: 14px; margin-top: 32px;">
+          <a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener" class="btn btn-primary btn-lg">Ver uma demonstração</a>
+          <a href="#" class="btn btn-ghost btn-lg">Baixar resumo de 1 página</a>
+        </div>
+      </div>
+
+      <div class="jf-carousel">
+        <div class="jf-stage">
+          <div class="jf-track" id="jf-track">
+
+            <div class="jf-slide"><img src="assets/demo/01-fluxo1.png" alt="WhatsApp — pedido de raio-X e resumo executivo" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/02-fluxo2.png" alt="WhatsApp — dados detalhados dos últimos 30 dias" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/03-fluxo3-pdf.png" alt="WhatsApp — PDF do raio-X gerado" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/04-fluxo4.png" alt="WhatsApp — confirmação e envio do email para Pedro" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/05-fluxo5email.png" alt="WhatsApp — email enviado para Pedro" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/07-fluxo6-criando-tarefa-gabinete.png" alt="WhatsApp — criando tarefa no gabinete para o Carlos" loading="lazy"></div>
+            <div class="jf-slide"><img src="assets/demo/08-fluxo7-fim.png" alt="WhatsApp — encerramento e acompanhamento contínuo" loading="lazy"></div>
+            <div class="jf-slide jf-slide-panel">
+              <div class="jf-browser">
+                <div class="jf-bbar">
+                  <span class="jf-bdot r"></span><span class="jf-bdot y"></span><span class="jf-bdot g"></span>
+                  <div class="jf-burl"><span class="jf-block">🔒</span> nodedata.com.br <span class="jf-breload">↻</span></div>
+                  <div class="jf-bicons">↗ + ▢</div>
+                </div>
+                <main class="jf-pmain">
+                  <div class="jf-pcrumb">▦ Node Data &nbsp;›&nbsp; Radar Eleitoral &nbsp;›&nbsp; <strong>Tarefas do Gabinete</strong></div>
+                  <div class="jf-phead">
+                    <div>
+                      <h4><span class="jf-pcheck">✓</span> Tarefas do Gabinete</h4>
+                      <p>Backlog criado pelo Chefe de Gabinete Digital — atualizado em tempo real</p>
+                    </div>
+                    <button class="jf-prefresh">↻ Atualizar</button>
+                  </div>
+                  <div class="jf-pstats">
+                    <div class="jf-pstat" style="--c:#f59e0b"><span>Abertas</span><b>15</b></div>
+                    <div class="jf-pstat" style="--c:#3b82f6"><span>Em Andamento</span><b>1</b></div>
+                    <div class="jf-pstat" style="--c:#22c55e"><span>Concluídas</span><b>4</b></div>
+                    <div class="jf-pstat" style="--c:#ef4444"><span>Prazo Vencido</span><b>2</b></div>
+                  </div>
+                  <div class="jf-pfilter">
+                    <span class="jf-ppill">Não concluídas ▾</span>
+                    <span class="jf-pcount">Nova: criada via WhatsApp · 11:16</span>
+                  </div>
+                  <div class="jf-ptask hl" style="--c:#f59e0b">
+                    <div class="jf-ptask-arrow">→</div>
+                    <div class="jf-ptask-body">
+                      <div class="jf-ptask-tag"><span class="t">⊙ ABERTA</span> <span class="n">#20</span> <span class="jf-pnew">NOVA</span></div>
+                      <div class="jf-ptask-tt">Monitorar cenário social e econômico de Juiz de Fora e atualizar o Deputado semanalmente</div>
+                      <div class="jf-ptask-d">Acompanhar indicadores de infraestrutura, mobilidade, assistência social e repercussão pública. Relatar semanalmente ao Deputado qualquer mudança relevante ou crise emergente.</div>
+                      <div class="jf-ptask-foot">👤 <strong>Carlos</strong> &nbsp;·&nbsp; <span class="muted">criada 09/05/2026 11:16</span> &nbsp;·&nbsp; <span class="jf-poriginchip">via WhatsApp do Deputado</span></div>
+                      <div class="jf-ptask-actrow"><button class="and">▶ Andamento</button><button class="conc">✓ Concluir</button></div>
+                    </div>
+                  </div>
+                  <div class="jf-ptask peek" style="--c:#f59e0b">
+                    <div class="jf-ptask-body">
+                      <div class="jf-ptask-tag"><span class="t">⊙ ABERTA</span> <span class="n">#19</span></div>
+                      <div class="jf-ptask-tt">Acompanhar demandas de Leopoldina: desenvolvimento econômico, SAMU e proteção ao comércio local</div>
+                    </div>
+                  </div>
+                </main>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="jf-nav">
+          <button class="jf-arrow" id="jf-prev">←</button>
+          <div class="jf-dots" id="jf-dots"></div>
+          <button class="jf-arrow" id="jf-next">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== RANKING / MAP ============== -->
+<script>
+  (function() {
+    var track = document.getElementById('jf-track');
+    var dotsBox = document.getElementById('jf-dots');
+    if (!track) return;
+    var n = track.children.length;
+    for (var i = 0; i < n; i++) { var b = document.createElement('button'); if (i === 0) b.className = 'active'; b.dataset.idx = i; dotsBox.appendChild(b); }
+    var dots = dotsBox.querySelectorAll('button');
+    var idx = 0;
+    function go(i) { idx = (i + n) % n; track.style.transform = 'translateX(-' + (idx * 100) + '%)'; dots.forEach(function(d, j) { d.classList.toggle('active', j === idx); }); }
+    document.getElementById('jf-prev').addEventListener('click', function() { go(idx - 1); });
+    document.getElementById('jf-next').addEventListener('click', function() { go(idx + 1); });
+    dots.forEach(function(d) { d.addEventListener('click', function() { go(parseInt(d.dataset.idx, 10)); }); });
+  })();
+</script>
+<!-- ============== PROBLEM ============== -->
+<section class="band problem" id="diagnostico">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Diagnóstico</div>
+      <h2>As 8 perguntas que <em>ninguém</em> consegue responder antes da eleição.</h2>
+      <p>Uma campanha de deputado custa R$ 500 mil a R$ 10 milhões — uma empresa pequena que precisa rodar em 6 meses. Hoje, 90% das decisões são tomadas por intuição do marqueteiro e memória do chefe de gabinete. Dinheiro queima, base se perde, adversário ocupa primeiro.</p>
+    </div>
+
+    <div class="questions">
+      <div class="question">
+        <div class="question-num">i.</div>
+        <div>
+          <div class="question-q">Onde eu vou amanhã?</div>
+          <div class="question-a">A decisão mais cara da campanha. Cidade errada queima R$ 30k de logística por dia.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">ii.</div>
+        <div>
+          <div class="question-q">Por que essas são minhas cidades?</div>
+          <div class="question-a">Candidatos operam com mapa de base do ano passado. O cenário muda a cada 60 dias.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">iii.</div>
+        <div>
+          <div class="question-q">O que meus adversários estão fazendo agora?</div>
+          <div class="question-a">A demora típica é de 48 a 72 horas. Tempo de resposta é o que mais falta.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">iv.</div>
+        <div>
+          <div class="question-q">O que cada cidade quer ouvir?</div>
+          <div class="question-a">Mesmo discurso em Itaúna e Diamantina perde em ambas. Localização de pauta no olho.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">v.</div>
+        <div>
+          <div class="question-q">Quem é a liderança real de cada bairro?</div>
+          <div class="question-a">Está na cabeça do chefe de gabinete. Quando ele sai, o mapa vai junto.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">vi.</div>
+        <div>
+          <div class="question-q">Estou prometendo coisa demais?</div>
+          <div class="question-a">270 promessas em 90 dias. Ninguém rastreia. Vira manchete de jornal local.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">vii.</div>
+        <div>
+          <div class="question-q">Quem são meus cabos eleitorais ativos?</div>
+          <div class="question-a">40 coordenadores. Qual produz, qual sumiu, qual virou. Zero visibilidade.</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-num">viii.</div>
+        <div>
+          <div class="question-q">Como está minha captação versus o adversário?</div>
+          <div class="question-a">Doações são públicas no TSE — mas ninguém compara em tempo real.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section class="band how" id="como-funciona">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Como funciona</div>
+      <h2>Da escuta do povo ao <em>WhatsApp</em> do candidato — em 4 passos.</h2>
+      <p>O caminho é o mesmo todo dia. À meia-noite o sistema recolhe tudo que rolou na cidade, processa e às 7h da manhã o resumo chega no WhatsApp do candidato. Tudo registrado, tudo conferível.</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 26V8a2 2 0 012-2h16a2 2 0 012 2v14a2 2 0 01-2 2H10l-4 4z"/>
+          <path d="M11 13h10M11 17h7"/>
+        </svg>
+        <div class="step-num">i. Escuta</div>
+        <h4>WhatsApp, redes e jornais</h4>
+        <p>Os cidadãos mandam recados pelo WhatsApp. O sistema acompanha comentários no Instagram. E lê em tempo real os principais jornais do país e da sua região.</p>
+      </div>
+      <div class="flow-step">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="16" cy="16" r="10"/>
+          <path d="M16 11v5l3 3M11 6l-3 3M21 6l3 3"/>
+        </svg>
+        <div class="step-num">ii. Organização</div>
+        <h4>Inteligência separa por assunto</h4>
+        <p>Cada mensagem é organizada por tema (saúde, segurança, obras), por cidade e pelo clima — positivo, negativo ou neutro. Tudo cruzado com o histórico de votos do TSE e os dados do IBGE.</p>
+      </div>
+      <div class="flow-step">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="5" y="6" width="22" height="20" rx="2"/>
+          <path d="M5 12h22M10 18h6M10 22h10"/>
+        </svg>
+        <div class="step-num">iii. Painel</div>
+        <h4>Tudo em uma tela só</h4>
+        <p>O coordenador de campanha vê tudo num painel só: mapa do clima por cidade, lista de prioridades, avisos, dinheiro, ficha de aliados e agenda — atualizando a cada 5 segundos.</p>
+      </div>
+      <div class="flow-step">
+        <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M16 4l9 5v9c0 5-4 8.5-9 10-5-1.5-9-5-9-10V9l9-5z"/>
+          <path d="M12 16l3 3 6-6"/>
+        </svg>
+        <div class="step-num">iv. Decisão</div>
+        <h4>Assistente no WhatsApp</h4>
+        <p>O candidato pergunta no WhatsApp e recebe a resposta em segundos. Pode pedir o relatório em PDF, baixar a agenda, aprovar um gasto. Tudo com proteção total dos dados das pessoas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band map-section" id="ranking">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Mapa do estado</div>
+      <h2>A <em>lista semanal</em> que diz onde a próxima visita rende mais voto.</h2>
+      <p>Toda segunda-feira, o sistema reorganiza as cidades pelo que importa: quanto voto cabe ali, qual a distância para o adversário e quanto custa fazer campanha. Compara com a semana anterior e avisa de quedas bruscas com explicação por cidade.</p>
+    </div>
+
+    <div class="sit-mock">
+      <div class="mock-chrome">
+        <div class="mock-dots"><span></span><span></span><span></span></div>
+        <div class="mock-url">painel.nodedata.com.br/sala-de-situacao</div>
+      </div>
+      <div class="sit-shell">
+        <header class="sit-header">
+          <div>
+            <h3 class="sit-title">Sala de Situação</h3>
+            <div class="sit-subtitle">O que exige decisão política hoje</div>
+          </div>
+          <button class="sit-export" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar
+            <span style="opacity:.6">▾</span>
+          </button>
+        </header>
+
+        <div class="sit-hero">
+          <article class="sit-card sit-card-crise">
+            <span class="sit-pill-crise">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              CRISE LOCALIZADA
+            </span>
+            <h4 class="sit-h2">Belo Horizonte exige foco em Desenvolvimento Econômico.</h4>
+            <p class="sit-lead">9 cidade(s) em alerta, 432 demanda(s) críticas e sentimento líquido de −11%. A prioridade é transformar pressão local em ação visível ainda hoje.</p>
+            <div class="sit-actions">
+              <div class="sit-action">
+                <div class="sit-action-eyebrow">1. CAMPO</div>
+                <p>Acionar coordenador de Belo Horizonte e pedir leitura em até 2 horas.</p>
+              </div>
+              <div class="sit-action">
+                <div class="sit-action-eyebrow">2. FALA PÚBLICA</div>
+                <p>Preparar resposta curta sobre Desenvolvimento Econômico.</p>
+              </div>
+              <div class="sit-action">
+                <div class="sit-action-eyebrow">3. AGENDA</div>
+                <p>Definir presença ou ligação nas 3 cidades com maior risco.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="sit-card sit-card-crises">
+            <div class="sit-crises-head">
+              <div class="sit-crises-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                Crises nascendo
+              </div>
+              <div class="sit-crises-time">Agora</div>
+            </div>
+            <div class="sit-crises-list">
+              <div class="sit-crisis" style="--c:#ef4444">
+                <div class="sit-crisis-h">Leopoldina sob pressão</div>
+                <div class="sit-crisis-d">52 sinais negativos e 52 urgências abertas.</div>
+              </div>
+              <div class="sit-crisis" style="--c:#f59e0b">
+                <div class="sit-crisis-h">Desenvolvimento Econômico domina a conversa</div>
+                <div class="sit-crisis-d">Tema precisa de frase pronta, responsável definido e retorno com prazo.</div>
+              </div>
+              <div class="sit-crisis" style="--c:#3b82f6">
+                <div class="sit-crisis-h">Vespasiano merece leitura fina</div>
+                <div class="sit-crisis-d">Compare WhatsApp, Instagram e notícias antes de agenda pública.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="sit-stats">
+          <div class="sit-stat" style="--c:#ef4444">
+            <div class="sit-stat-head"><span>Cidades em alerta</span></div>
+            <div class="sit-stat-value">9</div>
+            <div class="sit-stat-foot">Prioridade: Belo Horizonte</div>
+          </div>
+          <div class="sit-stat" style="--c:#f59e0b">
+            <div class="sit-stat-head"><span>Demandas críticas</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="sit-stat-value">432</div>
+            <div class="sit-stat-foot">1000 sinais analisados</div>
+          </div>
+          <div class="sit-stat" style="--c:#3b82f6">
+            <div class="sit-stat-head"><span>Narrativa dominante</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="sit-stat-value serif">Desenvolvimento Econômico</div>
+            <div class="sit-stat-foot">143 menções no recorte</div>
+          </div>
+          <div class="sit-stat" style="--c:#22c55e">
+            <div class="sit-stat-head"><span>Sentimento líquido</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="sit-stat-value">−11%</div>
+            <div class="sit-stat-foot">Ambiente exige contenção</div>
+          </div>
+          <div class="sit-stat" style="--c:#a78bfa">
+            <div class="sit-stat-head"><span>Campo sem leitura</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="sit-stat-value">0</div>
+            <div class="sit-stat-foot">Cidades sem leitura recente</div>
+          </div>
+        </div>
+
+        <section class="sit-onde">
+          <div class="sit-onde-head">
+            <div class="sit-onde-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+              Onde agir hoje
+            </div>
+            <div class="sit-onde-sub">Ranking por risco, base eleitoral e pressão local</div>
+          </div>
+
+          <div class="sit-row">
+            <div class="sit-rank">1</div>
+            <div class="sit-row-body">
+              <strong>Belo Horizonte</strong>
+              <p>Marcar agenda de mobilização: visita com lideranças locais e pauta ligada aos temas quentes. <em>Motivo: 76.721 votos potenciais · 160.365 votos de base mapeada.</em></p>
+            </div>
+            <div class="sit-score">60/100<small>alta</small></div>
+          </div>
+
+          <div class="sit-row">
+            <div class="sit-rank">2</div>
+            <div class="sit-row-body">
+              <strong>Governador Valadares</strong>
+              <p>Marcar agenda de mobilização: visita com lideranças locais e pauta ligada aos temas quentes. <em>Motivo: 20.995 votos potenciais · 29.899 votos de base mapeada · 5 sinais críticos.</em></p>
+            </div>
+            <div class="sit-score" style="--c:#f59e0b">50/100<small>alta</small></div>
+          </div>
+
+          <div class="sit-row">
+            <div class="sit-rank">3</div>
+            <div class="sit-row-body">
+              <strong>Teófilo Otoni</strong>
+              <p>Visita com lideranças locais e pauta ligada aos temas quentes. <em>Motivo: 12.430 votos potenciais · 18.110 votos de base mapeada.</em></p>
+            </div>
+            <div class="sit-score" style="--c:#f59e0b">44/100<small>média</small></div>
+          </div>
+
+          <div class="sit-row">
+            <div class="sit-rank">4</div>
+            <div class="sit-row-body">
+              <strong>Leopoldina</strong>
+              <p>Resposta pública e leitura de campo nas próximas 48h. <em>Motivo: 52 urgências abertas · sentimento −18%.</em></p>
+            </div>
+            <div class="sit-score" style="--c:#3b82f6">38/100<small>média</small></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PLATFORM TOUR ============== -->
+<section class="platform-tour" id="plataforma">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">A plataforma por dentro</div>
+      <h2>Cada tela foi pensada para o <em>dia a dia</em> de campanha.</h2>
+      <p>Layout escuro pensado para passar horas em frente à tela, sem cansar a vista. Cada mensagem do cidadão vira um cartão. Cada cartão tem cidade, assunto, clima e situação. Tudo filtrável em segundos.</p>
+    </div>
+
+    <!-- Tela 1: Voz do Povo -->
+    <div class="tour-block">
+      <div class="tour-text">
+        <div class="tour-num">tela 01</div>
+        <h3>Voz do Povo</h3>
+        <p class="tour-lead">A caixa de entrada das mensagens que chegam pelo WhatsApp. Cada cartão é um recado de cidadão, já organizado por assunto, cidade e nível de urgência.</p>
+        <ul class="tour-list">
+          <li><strong>Filtros rápidos</strong> — todas as categorias, prioridades, cidades. Em segundos você encontra o que precisa.</li>
+          <li><strong>Cartões coloridos</strong> — cada assunto tem sua cor: saúde, segurança, obras, meio ambiente, assistência social.</li>
+          <li><strong>Clima do recado</strong> — positivo, neutro ou urgente, marcado de cara.</li>
+          <li><strong>Situação</strong> — aberto, em andamento, resolvido. Você acompanha cada caso.</li>
+          <li><strong>Resumo automático</strong> — botão "Gerar" cria um discurso pronto sobre os principais assuntos da cidade.</li>
+        </ul>
+        <div class="tour-stat">
+          <strong>110 mensagens</strong> de cidadãos só de Itaúna nos últimos 30 dias — todas organizadas, nenhuma perdida.
+        </div>
+      </div>
+
+      <div class="tour-mock">
+        <div class="mock-chrome">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <div class="mock-url">painel.nodedata.com.br/voz-do-povo</div>
+        </div>
+        <div class="app-shell">
+          <!-- Sidebar -->
+          <aside class="app-side">
+            <div class="app-brand">
+              <div class="app-logo-icon">▦</div>
+              <div class="app-logo-text">Node Data</div>
+            </div>
+            <div class="app-side-eyebrow">RADAR ELEITORAL</div>
+            <nav class="app-nav">
+              <a class="nav-i"><span class="ni">▢</span> Painel</a>
+              <a class="nav-i"><span class="ni">◐</span> Prioridades</a>
+              <a class="nav-i"><span class="ni">⚏</span> Operação Local</a>
+              <a class="nav-i active"><span class="ni">◯</span> Voz do Povo</a>
+              <a class="nav-i"><span class="ni">◇</span> Radar de Comentários</a>
+              <a class="nav-i"><span class="ni">▤</span> Radar de Notícias</a>
+              <a class="nav-i"><span class="ni">⌘</span> Radar MG</a>
+              <a class="nav-i"><span class="ni">▥</span> Mapa Eleitoral</a>
+              <a class="nav-i"><span class="ni">◉</span> Simulador de Conquista</a>
+              <a class="nav-i"><span class="ni">✓</span> Tarefas do Gabinete</a>
+            </nav>
+          </aside>
+
+          <!-- Main -->
+          <main class="app-main">
+            <div class="app-header">
+              <div>
+                <h4 class="app-title">Voz do Povo</h4>
+                <div class="app-sub">Gerencie e analise as mensagens diretas dos cidadãos</div>
+              </div>
+              <button class="app-btn-export">↓ Exportar</button>
+            </div>
+
+            <div class="app-filters">
+              <div class="app-filter">Todas Categorias <span>▾</span></div>
+              <div class="app-filter">Todas Prioridades <span>▾</span></div>
+              <div class="app-filter">Itaúna (110) <span>▾</span></div>
+              <div class="app-filter">Cards Ativos <span>▾</span></div>
+              <div class="app-filter ghost">⌫ Limpar</div>
+              <div class="app-counter">Mostrando 43 de 110 mensagens</div>
+            </div>
+
+            <div class="app-banner">
+              <div class="app-banner-l">
+                <div class="banner-icon">◉</div>
+                <div>Discurso estratégico para <strong>Itaúna</strong></div>
+              </div>
+              <button class="app-btn-gerar">★ GERAR</button>
+            </div>
+
+            <div class="app-grid">
+              <!-- Card 1 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-orange">ASSISTÊNCIA SOCIAL</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 09/04, 10:23</div>
+                <p class="vp-text">A seca está castigando as famílias rurais de Itaúna. Perdemos quase metade do rebanho. Precisamos de programa…</p>
+                <div class="vp-foot">
+                  <span class="vp-mood positive">● Positivo</span>
+                  <span class="vp-status andamento">↻ Em Andamento ▾</span>
+                </div>
+              </div>
+              <!-- Card 2 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-cyan">INFRAESTRUTURA & OBRAS</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 06/04, 21:06</div>
+                <p class="vp-text">A falta de água em Itaúna está castigando os moradores. Ficamos 3 dias sem água essa semana. A Copasa não …</p>
+                <div class="vp-foot">
+                  <span class="vp-mood positive">● Positivo</span>
+                  <span class="vp-status andamento">↻ Em Andamento ▾</span>
+                </div>
+              </div>
+              <!-- Card 3 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-red">SEGURANÇA PÚBLICA</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 07/04, 14:16</div>
+                <p class="vp-text">A situação dos presídios na região de Itaúna é crítica. Superlotação extrema e fugas frequentes. População em risco!</p>
+                <div class="vp-foot">
+                  <span class="vp-mood neutral">● Neutro</span>
+                  <span class="vp-status andamento">↻ Em Andamento ▾</span>
+                </div>
+              </div>
+              <!-- Card 4 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-cyan">INFRAESTRUTURA & OBRAS</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 30/03, 00:42</div>
+                <p class="vp-text">A falta de água em Itaúna está castigando os moradores. Ficamos 3 dias sem água essa semana. A Copasa não …</p>
+                <div class="vp-foot">
+                  <span class="vp-mood urgent">● Urgente</span>
+                  <span class="vp-status aberto">⚠ Aberto ▾</span>
+                </div>
+              </div>
+              <!-- Card 5 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-green">DESENVOLVIMENTO ECONÔMICO</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 09/04, 10:19</div>
+                <p class="vp-text">Meu marido arranjou emprego em 6 semanas graças ao curso de qualificação do SENAI em Itaúna. Parceria que…</p>
+                <div class="vp-foot">
+                  <span class="vp-mood positive">● Positivo</span>
+                  <span class="vp-status aberto">⚠ Aberto ▾</span>
+                </div>
+              </div>
+              <!-- Card 6 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-cyan2">SAÚDE & EDUCAÇÃO</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 16/03, 19:37</div>
+                <p class="vp-text">Minha mãe de 75 anos espera cirurgia de quadril há 1 ano pelo SUS em Itaúna. Vive com dor constante. Até quando esse…</p>
+                <div class="vp-foot">
+                  <span class="vp-mood urgent">● Urgente</span>
+                  <span class="vp-status andamento">↻ Em Andamento ▾</span>
+                </div>
+              </div>
+              <!-- Card 7 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-greendk">MEIO AMBIENTE</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 05/04, 06:49</div>
+                <p class="vp-text">A usina solar instalada em Itaúna gera energia limpa para 5 mil famílias da região. O futuro é renovável!</p>
+                <div class="vp-foot">
+                  <span class="vp-mood urgent">● Urgente</span>
+                  <span class="vp-status aberto">⚠ Aberto ▾</span>
+                </div>
+              </div>
+              <!-- Card 8 -->
+              <div class="vp-card">
+                <div class="vp-tags">
+                  <span class="vp-tag tag-greendk">MEIO AMBIENTE</span>
+                  <span class="vp-tag tag-purple">◉ ITAÚNA</span>
+                </div>
+                <div class="vp-date">⏱ 01/04, 01:50</div>
+                <p class="vp-text">O córrego que passa pelo centro de Itaúna está completamente morto. Esgoto jogado diretamente na água. Uma…</p>
+                <div class="vp-foot">
+                  <span class="vp-mood urgent">● Urgente</span>
+                  <span class="vp-status andamento">↻ Em Andamento ▾</span>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela 02: Radar MG -->
+    <div class="tour-block">
+      <div class="tour-text">
+        <div class="tour-num">tela 02</div>
+        <h3>Radar MG</h3>
+        <p class="tour-lead">Em 30 segundos: o que a mídia destaca, o que o povo está reclamando e o retrato do IBGE da cidade — lado a lado, na mesma tela.</p>
+        <ul class="tour-list">
+          <li><strong>Tá na mídia</strong> — leitura sintetizada das notícias locais, com tom (positivo, misto, negativo).</li>
+          <li><strong>Voz do povo</strong> — o que está sendo dito no WhatsApp, redes e canais de feedback.</li>
+          <li><strong>Retrato IBGE</strong> — população, PIB, IDHM, área e densidade — sem precisar abrir nenhuma aba.</li>
+          <li><strong>Oportunidades políticas</strong> — temas onde a sua presença converte em voto antes do adversário.</li>
+        </ul>
+        <div class="tour-stat">
+          Antes era uma semana de relatório. Agora é <strong>uma tela</strong>, atualizada continuamente.
+        </div>
+      </div>
+
+      <div class="tour-mock">
+        <div class="mock-chrome">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <div class="mock-url">painel.nodedata.com.br/radar-mg</div>
+        </div>
+        <div class="radar-shell">
+          <header class="radar-head">
+            <div class="radar-h-l">
+              <svg class="radar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+              <div>
+                <h4 class="radar-title">Radar MG</h4>
+                <div class="radar-sub">Inteligência política por cidade de Minas Gerais</div>
+              </div>
+            </div>
+          </header>
+
+          <div class="radar-search">
+            <div class="radar-input">curvelo</div>
+            <div class="radar-input ph">Últimos 7 dias ▾</div>
+            <div class="radar-btn">⌕ Pesquisar</div>
+          </div>
+
+          <div class="radar-grid3">
+            <div class="radar-card media">
+              <div class="radar-card-head"><span class="lbl">📰 TÁ NA MÍDIA</span><span class="radar-card-tag">Misto</span></div>
+              <p>A mídia destaca a inauguração de novas UBS em Curvelo, financiadas pelo Acordo de Brumadinho, junto a casos de violência. O tom é misto — avanços na saúde, alerta na segurança.</p>
+              <div class="radar-card-foot">🌐 20 notícias analisadas</div>
+            </div>
+            <div class="radar-card voz">
+              <div class="radar-card-head"><span class="lbl">💬 VOZ DO POVO</span></div>
+              <p>A população de Curvelo expressa preocupação com a segurança, com queixas sobre falta de médicos nas UBS e buracos nas ruas. Há também elogios a projetos sociais e melhorias.</p>
+              <div class="radar-card-foot"><span style="color:#22c55e">● 25 feedbacks</span><span style="color:#38bdf8">● 0 posts</span></div>
+            </div>
+            <div class="radar-card ibge">
+              <div class="radar-card-head"><span class="lbl">🏛 IBGE</span></div>
+              <h5 class="radar-city-name">curvelo</h5>
+              <div class="radar-city-uf">MINAS GERAIS</div>
+              <div class="radar-stats">
+                <div class="radar-stat"><div class="radar-stat-ic">👥</div><div><div class="radar-stat-v">84.297</div><div class="radar-stat-l">HABITANTES</div></div></div>
+                <div class="radar-stat"><div class="radar-stat-ic">$</div><div><div class="radar-stat-v">R$ 33.550</div><div class="radar-stat-l">PIB PER CAPITA</div></div></div>
+                <div class="radar-stat"><div class="radar-stat-ic">▦</div><div><div class="radar-stat-v">0.713</div><div class="radar-stat-l">IDHM 2010</div></div></div>
+                <div class="radar-stat"><div class="radar-stat-ic">⌖</div><div><div class="radar-stat-v">3.296 km²</div><div class="radar-stat-l">ÁREA</div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="radar-opp">
+            <div class="radar-opp-head">💡 OPORTUNIDADES POLÍTICAS</div>
+            <ul class="radar-opp-grid">
+              <li>Fortalecer a segurança pública com programas de prevenção</li>
+              <li>Investir em saúde com a contratação de mais médicos para UBS</li>
+            </ul>
+          </div>
+
+          <div class="radar-temas-head">TEMAS ENCONTRADOS</div>
+          <div class="radar-temas">
+            <div class="radar-tema">
+              <div class="radar-tema-head"><strong>Saúde</strong><span class="radar-tema-pill neg">negativo</span></div>
+              <span class="radar-tema-cat saude">Saúde · 4 menções</span>
+              <p>"UBS do bairro fechada há 2 semanas sem médico"</p>
+            </div>
+            <div class="radar-tema">
+              <div class="radar-tema-head"><strong>Segurança</strong><span class="radar-tema-pill neg">negativo</span></div>
+              <span class="radar-tema-cat seg">Segurança · 4 menções</span>
+              <p>"Assaltos à mão armada viraram rotina"</p>
+            </div>
+            <div class="radar-tema">
+              <div class="radar-tema-head"><strong>Infraestrutura</strong><span class="radar-tema-pill neg">negativo</span></div>
+              <span class="radar-tema-cat infra">Infraestrutura · 4 menções</span>
+              <p>"Rua principal cheia de buracos"</p>
+            </div>
+            <div class="radar-tema">
+              <div class="radar-tema-head"><strong>Meio Ambiente</strong><span class="radar-tema-pill neg">negativo</span></div>
+              <span class="radar-tema-cat meio">Meio Ambiente · 3 menções</span>
+              <p>"Despejo de resíduos químicos no rio"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela 03: Pitch Estratégico -->
+    <div class="tour-block">
+      <div class="tour-text">
+        <div class="tour-num">tela 03</div>
+        <h3>Pitch Estratégico em 10 segundos.</h3>
+        <p class="tour-lead">Antes de subir no palanque ou abrir uma reunião, o resumo do que dizer — e do que evitar — cabe na palma da mão.</p>
+        <ul class="tour-list">
+          <li><strong>Panorama da cidade</strong> — diagnóstico curto, em frase única, do clima político local.</li>
+          <li><strong>Frase de abertura sugerida</strong> — pronta para ler ou adaptar, com o tom certo para a cidade.</li>
+          <li><strong>Temas quentes</strong> — o que <em>falar</em> e o que <em>evitar</em> em cada assunto crítico.</li>
+          <li><strong>Prioridade clara</strong> — alta, média ou baixa — para você não tropeçar no que não rende.</li>
+        </ul>
+        <div class="tour-stat">
+          O que era dossiê de 30 páginas vira <strong>um cartão</strong> que cabe entre o carro e o microfone.
+        </div>
+      </div>
+
+      <div class="tour-mock">
+        <div class="mock-chrome">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <div class="mock-url">painel.nodedata.com.br/pitch · Pedro Leopoldo</div>
+        </div>
+        <div class="pitch-mock">
+          <div class="pitch-modal">
+            <div class="pitch-head">
+              <div class="pitch-h-l">
+                <svg class="pitch-h-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                <div>
+                  <h4 class="pitch-h-tt">Pitch Estratégico</h4>
+                  <div class="pitch-h-sub">📍 Pedro Leopoldo — MG</div>
+                </div>
+              </div>
+              <button class="pitch-x">✕</button>
+            </div>
+
+            <div class="pitch-section pano">
+              <h5>📊 PANORAMA</h5>
+              <div class="pitch-box">Pedro Leopoldo enfrenta desafios significativos em segurança pública e infraestrutura, enquanto avança em sustentabilidade e desenvolvimento econômico. A cidade mostra engajamento ativo dos cidadãos.</div>
+            </div>
+
+            <div class="pitch-section frase">
+              <h5>🎤 FRASE DE ABERTURA SUGERIDA</h5>
+              <div class="pitch-box frase">"É uma honra estar aqui em Pedro Leopoldo, uma cidade que demonstra resiliência e um forte espírito comunitário diante dos desafios que enfrentamos."</div>
+            </div>
+
+            <div class="pitch-section temas">
+              <h5>🔥 TEMAS QUENTES</h5>
+
+              <div class="pitch-tema">
+                <div class="pitch-tema-head">
+                  <span class="pitch-tema-tt">⊖ Segurança Pública</span>
+                  <span class="pitch-pill alta">ALTA</span>
+                </div>
+                <div class="pitch-line falar"><strong>Falar:</strong> É urgente que a cidade tenha uma delegacia de polícia civil própria para garantir segurança.</div>
+                <div class="pitch-line evitar"><strong>Evitar:</strong> minimizar a gravidade ou fazer promessas que não possam ser cumpridas.</div>
+              </div>
+
+              <div class="pitch-tema">
+                <div class="pitch-tema-head">
+                  <span class="pitch-tema-tt">⊕ Saúde &amp; Educação</span>
+                  <span class="pitch-pill alta">ALTA</span>
+                </div>
+                <div class="pitch-line falar"><strong>Falar:</strong> O investimento em creches — como a nova creche de 200 vagas — apoia famílias trabalhadoras.</div>
+                <div class="pitch-line evitar"><strong>Evitar:</strong> desconsiderar necessidades contínuas em saúde e educação.</div>
+              </div>
+
+              <div class="pitch-tema">
+                <div class="pitch-tema-head">
+                  <span class="pitch-tema-tt">⊕ Desenvolvimento Econômico</span>
+                  <span class="pitch-pill media">MÉDIA</span>
+                </div>
+                <div class="pitch-line falar"><strong>Falar:</strong> A regularização das feiras livres apoia economia local e transforma vidas.</div>
+                <div class="pitch-line evitar"><strong>Evitar:</strong> prometer investimentos sem plano claro de ação ou prazos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela 04: Simulador de Conquista -->
+    <div class="tour-block">
+      <div class="tour-text">
+        <div class="tour-num">tela 04</div>
+        <h3>Simulador de Conquista.</h3>
+        <p class="tour-lead">Cadastre sua base. O sistema cruza com o eleitorado real e devolve a lista de cidades onde cada visita rende mais voto. Decisão por <em>dado</em> — não por achismo.</p>
+        <ul class="tour-list">
+          <li><strong>Prioridade automática</strong> — Máxima, Alta, Média, Manutenção. Cada faixa tem o quanto de voto está em jogo.</li>
+          <li><strong>Projeção por região</strong> — quanto da meta já está mapeado e quanto ainda falta conquistar.</li>
+          <li><strong>Plano de campanha</strong> — todas as cidades com base, meta, barra de progresso e status (consolidado, em trabalho).</li>
+          <li><strong>Filtros vivos</strong> — por prioridade, status ou cidade. Em segundos, você vê onde a próxima reunião muda o jogo.</li>
+        </ul>
+        <div class="tour-stat">
+          <strong>441 mil votos</strong> de base mapeada · meta de 176 mil cravada nas cidades certas.
+        </div>
+      </div>
+
+      <div class="tour-mock">
+        <div class="mock-chrome">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <div class="mock-url">painel.nodedata.com.br/simulador-conquista</div>
+        </div>
+        <div class="sim-shell">
+          <div class="sim-prio">
+            <div class="sim-pcard" style="--c:#ef4444">
+              <div class="sim-pcard-head"><span class="sim-pcard-dot"></span><span>Prioridade MÁXIMA</span></div>
+              <div class="sim-pcard-v">15 cidades</div>
+              <div class="sim-pcard-foot">403.757 votos combinados</div>
+            </div>
+            <div class="sim-pcard" style="--c:#f59e0b">
+              <div class="sim-pcard-head"><span class="sim-pcard-dot"></span><span>Prioridade ALTA</span></div>
+              <div class="sim-pcard-v">10 cidades</div>
+              <div class="sim-pcard-foot">20.395 votos combinados</div>
+            </div>
+            <div class="sim-pcard" style="--c:#3b82f6">
+              <div class="sim-pcard-head"><span class="sim-pcard-dot"></span><span>Prioridade MÉDIA</span></div>
+              <div class="sim-pcard-v">13 cidades</div>
+              <div class="sim-pcard-foot">9.275 votos combinados</div>
+            </div>
+            <div class="sim-pcard" style="--c:#6b7280">
+              <div class="sim-pcard-head"><span class="sim-pcard-dot"></span><span>Manutenção</span></div>
+              <div class="sim-pcard-v">22 cidades</div>
+              <div class="sim-pcard-foot">7.633 votos combinados</div>
+            </div>
+          </div>
+
+          <div class="sim-proj">
+            <div class="sim-proj-h"><span class="ic">📍</span> Projeção por Região</div>
+            <div class="sim-proj-row">
+              <strong>Vale do Rio Doce e Entorno</strong>
+              <span class="meta">60 cidades · Base: 441.060 → Meta: <b>176.424</b></span>
+            </div>
+            <div class="sim-bar"><div class="sim-bar-fill" style="width:40%">176.424 votos</div></div>
+          </div>
+
+          <div class="sim-table">
+            <div class="sim-table-h"><span class="ic">⊕</span> Plano de Campanha — Todas as Cidades</div>
+            <div class="sim-filters">
+              <div class="sim-filter">Todas Prioridades ▾</div>
+              <div class="sim-filter">Todos Status ▾</div>
+              <div class="sim-filter search">Buscar cidade…</div>
+            </div>
+
+            <div class="sim-thead">
+              <span>#</span>
+              <span>Prioridade</span>
+              <span>Cidade · Região</span>
+              <span class="right">Base</span>
+              <span class="right">Meta</span>
+              <span>Progresso</span>
+              <span>Status</span>
+            </div>
+
+            <div class="sim-trow">
+              <span class="sim-num">1</span>
+              <span><span class="sim-pill-prio max">● MÁXIMA</span></span>
+              <span class="sim-cidade"><strong>Belo Horizonte</strong><small>BH / RMBH</small></span>
+              <span class="sim-num">160.365</span>
+              <span class="sim-num meta">64.146</span>
+              <span class="sim-bar2"><i style="width:80%"></i></span>
+              <span class="sim-status cons">● Consolidado</span>
+            </div>
+            <div class="sim-trow">
+              <span class="sim-num">2</span>
+              <span><span class="sim-pill-prio max">● MÁXIMA</span></span>
+              <span class="sim-cidade"><strong>Contagem</strong><small>BH / RMBH</small></span>
+              <span class="sim-num">50.396</span>
+              <span class="sim-num meta">20.158</span>
+              <span class="sim-bar2"><i style="width:62%"></i></span>
+              <span class="sim-status work">● Em trabalho</span>
+            </div>
+            <div class="sim-trow">
+              <span class="sim-num">3</span>
+              <span><span class="sim-pill-prio max">● MÁXIMA</span></span>
+              <span class="sim-cidade"><strong>Ipatinga</strong><small>Vale do Rio Doce</small></span>
+              <span class="sim-num">30.545</span>
+              <span class="sim-num meta">12.218</span>
+              <span class="sim-bar2"><i style="width:42%"></i></span>
+              <span class="sim-status cons">● Consolidado</span>
+            </div>
+            <div class="sim-trow">
+              <span class="sim-num">4</span>
+              <span><span class="sim-pill-prio max">● MÁXIMA</span></span>
+              <span class="sim-cidade"><strong>Betim</strong><small>BH / RMBH</small></span>
+              <span class="sim-num">30.346</span>
+              <span class="sim-num meta">12.138</span>
+              <span class="sim-bar2"><i style="width:38%"></i></span>
+              <span class="sim-status work">● Em trabalho</span>
+            </div>
+            <div class="sim-trow">
+              <span class="sim-num">5</span>
+              <span><span class="sim-pill-prio max">● MÁXIMA</span></span>
+              <span class="sim-cidade"><strong>Gov. Valadares</strong><small>Vale do Rio Doce</small></span>
+              <span class="sim-num">29.899</span>
+              <span class="sim-num meta">11.960</span>
+              <span class="sim-bar2"><i style="width:34%"></i></span>
+              <span class="sim-status work">● Em trabalho</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ============== OPERAÇÃO LOCAL ============== -->
+<section class="op-section" id="operacao-local">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Operação Local</div>
+      <h2>O exército de campo do candidato — todo <em>centralizado</em>.</h2>
+      <p>Cabos eleitorais, lideranças de bairro, presidentes de associação, prefeitos aliados. Todos cadastrados no painel, mandando relato pelo WhatsApp, abrindo chamado de campo do município deles. O assessor responde direto pelo painel, trava agenda no Google Calendar e fecha o ciclo. Sem grupo de WhatsApp espalhado, sem planilha, sem perder relato.</p>
+    </div>
+
+    <div class="op-carousel">
+      <div class="op-carousel-frame">
+        <div class="op-mock-chrome">
+          <div class="op-mock-dots"><span></span><span></span><span></span></div>
+          <div class="op-mock-url">painel.nodedata.com.br/operacao-local</div>
+          <div class="op-mock-step" id="op-step-label">passo 1 de 5</div>
+        </div>
+        <div class="op-track" id="op-track">
+
+          <!-- SLIDE 1: Dashboard com cadastro + chamado -->
+          <div class="op-slide">
+            <div class="op-shell">
+              <div class="op-stats">
+                <div class="op-stat" style="--c:#22c55e;">
+                  <div class="op-stat-h">Operadores Ativos <span class="op-stat-ic">👥</span></div>
+                  <div class="op-stat-v">2</div>
+                  <div class="op-stat-foot">Números autorizados</div>
+                </div>
+                <div class="op-stat" style="--c:#3b82f6;">
+                  <div class="op-stat-h">Atualizações Hoje <span class="op-stat-ic">💬</span></div>
+                  <div class="op-stat-v">12</div>
+                  <div class="op-stat-foot">Mensagens de campo</div>
+                </div>
+                <div class="op-stat" style="--c:#f59e0b;">
+                  <div class="op-stat-h">Cidades Movimentadas <span class="op-stat-ic">📍</span></div>
+                  <div class="op-stat-v">8</div>
+                  <div class="op-stat-foot">Municípios com relatos</div>
+                </div>
+                <div class="op-stat" style="--c:#ef4444;">
+                  <div class="op-stat-h">Pontos de Atenção <span class="op-stat-ic">⚠</span></div>
+                  <div class="op-stat-v">1</div>
+                  <div class="op-stat-foot">Demandas sensíveis</div>
+                </div>
+              </div>
+
+              <div class="op-row2">
+                <div class="op-card">
+                  <h5><span class="ic g">👤</span> Cadastrar Operador</h5>
+                  <div class="op-form">
+                    <div class="op-input">Nome do operador</div>
+                    <div class="op-input">Telefone com DDD e país</div>
+                    <div class="op-input">Função ex: Cabo eleitoral</div>
+                    <div class="op-input">Cidade base</div>
+                    <div class="op-input full">Região</div>
+                  </div>
+                  <div class="op-btn-save">⊕ Cadastrar número</div>
+                  <div class="op-card-foot">O número do prefeito/deputado continua protegido no Gabinete Digital. Operadores devem usar números próprios.</div>
+                </div>
+                <div class="op-card">
+                  <h5><span class="ic w">💬</span> Operadores Cadastrados</h5>
+                  <div class="op-oper">
+                    <div>
+                      <strong>Eduardo de Castro</strong>
+                      <p>📞 5533***14 • Cabo eleitoral</p>
+                      <p>📍 Governador Valadares • Leste de MG</p>
+                    </div>
+                    <span class="op-pill-ativo">ATIVO</span>
+                  </div>
+                  <div class="op-oper">
+                    <div>
+                      <strong>Rafael</strong>
+                      <p>📞 5544***71 • Cabo eleitoral</p>
+                      <p>📍 Paranaguá • Litoral</p>
+                    </div>
+                    <span class="op-pill-ativo">ATIVO</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="op-card">
+                <h5>Chamados de Campo</h5>
+                <div class="op-chamado" style="--c:#6366f1;">
+                  <div>
+                    <div class="op-cham-head">
+                      <span class="op-tag-lid">👤 LIDERANÇA</span>
+                      <span class="op-cham-city">Ipatinga</span>
+                      <span class="op-cham-time">Há 18h</span>
+                    </div>
+                    <p class="op-cham-text">Aqui em Ipatinga, essa semana, vai ter um feriado e tem uma festa muito grande na cidade que a população toda vai. E como o prefeito aqui é nosso aliado na campanha, eu acho que é de extrema importância que você venha aqui para que possa subir no palco com ele…</p>
+                    <div class="op-chips">
+                      <span class="op-chip">◇ Mobilizacao local</span>
+                      <span class="op-chip">👤 Prefeito aqui é nosso</span>
+                    </div>
+                    <div class="op-next"><strong>Próxima ação:</strong> Confirmar telefone da lideranca, forca local e proximo contato com agenda definida.</div>
+                    <div class="op-actions">
+                      <span class="op-act task">⊕ Criar tarefa no gabinete</span>
+                      <span class="op-act wa">💬 Conversar no WhatsApp</span>
+                      <span class="op-act radar">🗺 Ver radar</span>
+                    </div>
+                  </div>
+                  <div class="op-side">
+                    <div class="who">👤 Eduardo de Castro</div>
+                    <div class="ch">whatsapp</div>
+                    <div class="convbtn">💬 Conversar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 2: Lista de chamados (Coronel Fabriciano + Ipatinga REUNIÃO) -->
+          <div class="op-slide">
+            <div class="op-shell">
+              <h4 class="op-chamados-title" style="font-size:18px;margin-bottom:18px;">Chamados de Campo · feed em tempo real</h4>
+
+              <div class="op-chamado" style="--c:#6366f1;">
+                <div>
+                  <div class="op-cham-head">
+                    <span class="op-tag-lid">👤 LIDERANÇA</span>
+                    <span class="op-cham-city">Coronel Fabriciano</span>
+                    <span class="op-cham-time">21/04, 19:14</span>
+                  </div>
+                  <p class="op-cham-text">Esse final de semana vai ter na cidade de Coronel Fabriciano uma festa da cidade aqui anual. Então é muito importante que o candidato venha no sábado aqui, pois o prefeito vai subir no palanque, então para ele fazer alianças fortes para a campanha é fundamenta…</p>
+                  <div class="op-chips">
+                    <span class="op-chip">◇ Mobilizacao local</span>
+                    <span class="op-chip">👤 Prefeito vai subir no</span>
+                  </div>
+                  <div class="op-next"><strong>Próxima ação:</strong> Confirmar telefone da lideranca, forca local e proximo contato com agenda definida.</div>
+                  <div class="op-actions">
+                    <span class="op-act task">⊕ Criar tarefa no gabinete</span>
+                    <span class="op-act wa">💬 Conversar no WhatsApp</span>
+                    <span class="op-act radar">🗺 Ver radar</span>
+                  </div>
+                </div>
+                <div class="op-side">
+                  <div class="who">👤 Eduardo de Castro</div>
+                  <div class="ch">whatsapp</div>
+                  <div class="convbtn">💬 Conversar</div>
+                </div>
+              </div>
+
+              <div class="op-chamado" style="--c:#22c55e;">
+                <div>
+                  <div class="op-cham-head">
+                    <span class="op-tag-reu">🤝 REUNIÃO</span>
+                    <span class="op-cham-city">Ipatinga</span>
+                    <span class="op-cham-time">21/04, 19:12</span>
+                  </div>
+                  <p class="op-cham-text">Eu consegui uma reunião na cidade de Ipatinga com o prefeito para o dia 30, na semana que vem, então vou precisar que o candidato esteja aqui na parte da manhã para essa reunião.</p>
+                  <div class="op-chips">
+                    <span class="op-chip">◇ Mobilizacao local</span>
+                    <span class="op-chip">👤 Prefeito para o dia</span>
+                  </div>
+                  <div class="op-next" style="border-color:#166534;background:#052e1a;border-left-color:#22c55e;"><strong>Próxima ação:</strong> Confirmar telefone da lideranca, forca local e proximo contato com agenda definida.</div>
+                  <div class="op-actions">
+                    <span class="op-act task">⊕ Criar tarefa no gabinete</span>
+                    <span class="op-act wa">💬 Conversar no WhatsApp</span>
+                    <span class="op-act radar">🗺 Ver radar</span>
+                  </div>
+                </div>
+                <div class="op-side">
+                  <div class="who">👤 Eduardo de Castro</div>
+                  <div class="ch">whatsapp</div>
+                  <div class="convbtn">💬 Conversar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 3: Modal Conversar — mensagens enviadas + templates -->
+          <div class="op-slide">
+            <div class="op-shell">
+              <div class="op-modal-slide">
+                <div class="op-modal-left">
+                  <div class="op-modal-head">
+                    <div>
+                      <h4 class="op-modal-tt">💬 Conversar com Eduardo de Castro</h4>
+                      <div class="op-modal-sub">📍 Coronel Fabriciano · <b>Mobilizacao local</b></div>
+                    </div>
+                    <button class="op-modal-x">✕</button>
+                  </div>
+                  <div class="op-orig">
+                    <b>Chamado original:</b> Esse final de semana vai ter na cidade de Coronel Fabriciano uma festa da cidade aqui anual. Então é muito importante que o candidato venha no sábado aqui, pois o prefeito vai subir no palanque…
+                    <div style="margin-top:8px;"><b>Próxima ação:</b> Confirmar telefone da lideranca, forca local e proximo contato com agenda definida.</div>
+                  </div>
+                  <div class="op-msgs-h">MENSAGENS ENVIADAS</div>
+                  <div class="op-msgs">
+                    <div class="op-bub">Oi Eduardo! Fechamos a agenda: o deputado estará em Coronel Fabriciano no dia 26/04 às 10horas para tratar Mobilizacao local. Confirma pra mim? 📅 Agenda confirmada: <span class="calev">https://www.google.com/calendar/event?eid=dWtnMzU1NmxxcjZqanNwOGRrOWYwYmxwcTAgam…</span><small>gabinete · 22/04, 21:30 ✓✓</small></div>
+                    <div class="op-bub">ola, segue email para comicio 📅 Agenda confirmada: <span class="calev">https://www.google.com/calendar/event?eid=ZzNsNGE0anN0M2U1Z2VzcGRzN2tmcm…</span><small>gabinete · 22/04, 22:05 ✓✓</small></div>
+                  </div>
+                </div>
+                <div class="op-modal-right">
+                  <div class="op-tpls-h">TEMPLATES RÁPIDOS</div>
+                  <div class="op-tpls">
+                    <span class="op-tpl">Pedir contexto</span>
+                    <span class="op-tpl">Propor reunião</span>
+                    <span class="op-tpl">Confirmar agenda</span>
+                    <span class="op-tpl">Dar retorno</span>
+                    <span class="op-tpl">Marcar urgência</span>
+                  </div>
+                  <div class="op-textarea empty">Escreva a mensagem que será enviada ao operador via WhatsApp…</div>
+                  <p class="op-dest">Destinatário: <b>5533***14</b></p>
+                  <div style="margin-top:14px; display:flex; align-items:center; gap:10px; padding:12px 14px; background:#08090c; border:1px solid #1c2128; border-radius:7px;">
+                    <div class="op-cal-cb off"></div>
+                    <span class="op-cal-g">G</span>
+                    <span style="font-size:12.5px; color:#f3f4f6; font-weight:600;">Travar agenda no Google Calendar</span>
+                    <span class="op-cal-status" style="margin-left:auto;">✓ Conectado</span>
+                  </div>
+                  <div class="op-modal-actions">
+                    <button class="op-cancel">Cancelar</button>
+                    <button class="op-send disabled">▷ Enviar WhatsApp + Agendar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 4: Modal com Google Calendar — Agenda aberta (verde) -->
+          <div class="op-slide">
+            <div class="op-shell">
+              <div class="op-modal-slide">
+                <div class="op-modal-left">
+                  <div class="op-modal-head">
+                    <div>
+                      <h4 class="op-modal-tt">💬 Conversar com Eduardo de Castro</h4>
+                      <div class="op-modal-sub">📍 Coronel Fabriciano · <b>Mobilizacao local</b></div>
+                    </div>
+                    <button class="op-modal-x">✕</button>
+                  </div>
+                  <div class="op-tpls-h">TEMPLATES RÁPIDOS</div>
+                  <div class="op-tpls">
+                    <span class="op-tpl">Pedir contexto</span>
+                    <span class="op-tpl">Propor reunião</span>
+                    <span class="op-tpl">Confirmar agenda</span>
+                    <span class="op-tpl">Dar retorno</span>
+                    <span class="op-tpl">Marcar urgência</span>
+                  </div>
+                  <div class="op-textarea">Oi Eduardo! Quero agendar uma reunião do deputado para tratar Mobilizacao local em Coronel Fabriciano. Qual a melhor data e horário? Posso propor algo pra próxima semana.</div>
+                  <p class="op-dest">Destinatário: <b>5533***14</b></p>
+                </div>
+                <div class="op-modal-right">
+                  <div class="op-cal-h">
+                    <div class="op-cal-cb">✓</div>
+                    <div class="op-cal-tt"><span class="op-cal-g">G</span> Travar agenda no Google Calendar</div>
+                    <div class="op-cal-status">✓ Conectado</div>
+                  </div>
+                  <div class="op-cal-grid">
+                    <div class="op-cal-field"><span class="op-cal-lbl">DATA</span><span class="op-cal-val">12/05/2026</span></div>
+                    <div class="op-cal-field"><span class="op-cal-lbl">HORA</span><span class="op-cal-val">10:00</span></div>
+                    <div class="op-cal-field"><span class="op-cal-lbl">DURAÇÃO</span><span class="op-cal-val">1 hora</span></div>
+                  </div>
+                  <div class="op-cal-banner ok">⊙ Horário livre na agenda.</div>
+                  <div class="op-cal-row">Reunião em Coronel Fabriciano — Mobilizacao local</div>
+                  <div class="op-cal-row">Coronel Fabriciano, MG</div>
+                  <div class="op-cal-row ph">Convidar por email (separe por vírgula)</div>
+                  <p class="op-cal-foot">Os convidados recebem o convite por email e o evento na agenda deles.</p>
+                  <div class="op-modal-actions">
+                    <button class="op-cancel">Cancelar</button>
+                    <button class="op-send">▷ Enviar WhatsApp + Agendar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 5: Modal com Google Calendar — Agenda indisponível (vermelho) -->
+          <div class="op-slide">
+            <div class="op-shell">
+              <div class="op-modal-slide">
+                <div class="op-modal-left">
+                  <div class="op-modal-head">
+                    <div>
+                      <h4 class="op-modal-tt">💬 Conversar com Eduardo de Castro</h4>
+                      <div class="op-modal-sub">📍 Coronel Fabriciano · <b>Mobilizacao local</b></div>
+                    </div>
+                    <button class="op-modal-x">✕</button>
+                  </div>
+                  <div class="op-tpls-h">TEMPLATES RÁPIDOS</div>
+                  <div class="op-tpls">
+                    <span class="op-tpl">Pedir contexto</span>
+                    <span class="op-tpl">Propor reunião</span>
+                    <span class="op-tpl">Confirmar agenda</span>
+                    <span class="op-tpl">Dar retorno</span>
+                    <span class="op-tpl">Marcar urgência</span>
+                  </div>
+                  <div class="op-textarea">Oi Eduardo! Quero agendar uma reunião do deputado para tratar Mobilizacao local em Coronel Fabriciano. Qual a melhor data e horário? Posso propor algo pra próxima semana.</div>
+                  <p class="op-dest">Destinatário: <b>5533***14</b></p>
+                </div>
+                <div class="op-modal-right">
+                  <div class="op-cal-h">
+                    <div class="op-cal-cb">✓</div>
+                    <div class="op-cal-tt"><span class="op-cal-g">G</span> Travar agenda no Google Calendar</div>
+                    <div class="op-cal-status">✓ Conectado</div>
+                  </div>
+                  <div class="op-cal-grid">
+                    <div class="op-cal-field"><span class="op-cal-lbl">DATA</span><span class="op-cal-val">12/05/2026</span></div>
+                    <div class="op-cal-field"><span class="op-cal-lbl">HORA</span><span class="op-cal-val">10:00</span></div>
+                    <div class="op-cal-field"><span class="op-cal-lbl">DURAÇÃO</span><span class="op-cal-val">1 hora</span></div>
+                  </div>
+                  <div class="op-cal-banner no">⊗ Agenda indisponível neste horário.</div>
+                  <div class="op-cal-conflict"><b>Conflito:</b> Comitiva em Belo Horizonte · 09:30 – 11:30 · Câmara Municipal — sugestão: 12/05 às 14h ou 13/05 às 09h.</div>
+                  <div class="op-cal-row">Reunião em Coronel Fabriciano — Mobilizacao local</div>
+                  <div class="op-cal-row">Coronel Fabriciano, MG</div>
+                  <div class="op-cal-row ph">Convidar por email (separe por vírgula)</div>
+                  <p class="op-cal-foot">A agenda do deputado está bloqueada. Escolha outro horário ou peça reagendamento.</p>
+                  <div class="op-modal-actions">
+                    <button class="op-cancel">Cancelar</button>
+                    <button class="op-send disabled">▷ Enviar WhatsApp + Agendar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="op-nav">
+        <button class="op-arrow" id="op-prev" aria-label="Anterior">←</button>
+        <div style="display:flex;align-items:center;gap:18px;">
+          <span class="op-step-label" id="op-step-text">cadastrar operador</span>
+          <div class="op-dots" id="op-dots">
+            <button class="op-dot active" data-idx="0"></button>
+            <button class="op-dot" data-idx="1"></button>
+            <button class="op-dot" data-idx="2"></button>
+            <button class="op-dot" data-idx="3"></button>
+            <button class="op-dot" data-idx="4"></button>
+          </div>
+        </div>
+        <button class="op-arrow" id="op-next" aria-label="Próximo">→</button>
+      </div>
+    </div>
+
+    <div class="op-pillars">
+      <div class="op-pillar">
+        <div class="op-pillar-num">01 / CENTRALIZAÇÃO</div>
+        <h4>Sem grupo de WhatsApp espalhado.</h4>
+        <p>Cabos eleitorais, lideranças e prefeitos aliados mandam relato pelo WhatsApp deles. O painel recebe, cataloga por cidade, marca o tipo (mobilização, reunião, alerta) e mostra tudo num feed só. Nada se perde no áudio de grupo.</p>
+      </div>
+      <div class="op-pillar">
+        <div class="op-pillar-num">02 / RESPOSTA DIRETA</div>
+        <h4>O assessor responde do painel.</h4>
+        <p>Templates prontos para confirmar agenda, propor reunião, pedir contexto ou marcar urgência. A mensagem sai pelo WhatsApp do gabinete — o operador recebe em segundos, sem o assessor pular pra outro app.</p>
+      </div>
+      <div class="op-pillar">
+        <div class="op-pillar-num">03 / AGENDA TRAVADA</div>
+        <h4>Google Calendar integrado.</h4>
+        <p>Antes de confirmar, o sistema checa a agenda do deputado em tempo real. Se está aberta, trava o evento e dispara convite por email. Se está comprometida, mostra o conflito e bloqueia o envio. Zero promessa furada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var track = document.getElementById('op-track');
+    var dots = document.querySelectorAll('#op-dots .op-dot');
+    var stepLabel = document.getElementById('op-step-label');
+    var stepText = document.getElementById('op-step-text');
+    var labels = ['cadastrar operador', 'feed de chamados', 'conversar pelo painel', 'travar agenda — livre', 'agenda indisponível'];
+    var idx = 0;
+    function go(i) {
+      idx = (i + 5) % 5;
+      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      dots.forEach(function(d, j) { d.classList.toggle('active', j === idx); });
+      stepLabel.textContent = 'passo ' + (idx + 1) + ' de 5';
+      stepText.textContent = labels[idx];
+    }
+    document.getElementById('op-prev').addEventListener('click', function() { go(idx - 1); });
+    document.getElementById('op-next').addEventListener('click', function() { go(idx + 1); });
+    dots.forEach(function(d) { d.addEventListener('click', function() { go(parseInt(d.dataset.idx, 10)); }); });
+  })();
+</script>
+
+<!-- ============== TESTIMONIAL ============== -->
+<section class="testimonial">
+  <div class="testimonial-inner">
+    <blockquote>
+O Radar Eleitoral da Node Data não é só painel. É decisão. O candidato recebe a recomendação certa no WhatsApp antes do café — com base em informação que nenhum adversário tem.
+    </blockquote>
+    <div class="attribution">
+      <strong>Equipe Node Data</strong>
+      A nossa promessa para cada candidato
+    </div>
+  </div>
+</section>
+
+<!-- ============== MODULES ============== -->
+<section class="band pricing" id="planos">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Módulos da plataforma</div>
+      <h2>Três níveis de operação, um único <em>cérebro</em> de campanha.</h2>
+      <p>Da escuta dos cidadãos no WhatsApp até a sala de comando com radar de adversários. Cada nível funciona sozinho; juntos, formam a infraestrutura completa de inteligência da Node Data.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="tier-name">Nível I</div>
+        <h3>Essencial</h3>
+        <div class="desc">A base de escuta e relacionamento. Recados de cidadãos, redes sociais e imprensa regional consolidados em um único painel.</div>
+        <ul>
+          <li>Recados de cidadãos pelo WhatsApp</li>
+          <li>Acompanhamento de redes sociais</li>
+          <li>Olho na imprensa regional</li>
+          <li>Mapa do clima por cidade</li>
+          <li>Caderno de Aliados</li>
+          <li>Resumo semanal por e-mail</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Consultar implantação</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="tier-name">Nível II</div>
+        <h3>Estratégico</h3>
+        <div class="desc">A camada de decisão. Raio-X de cada cidade, lista semanal de prioridades e o assistente que executa a partir do WhatsApp do candidato.</div>
+        <ul>
+          <li>Tudo do nível Essencial</li>
+          <li>Raio-X completo de cada cidade</li>
+          <li>Lista semanal de prioridades</li>
+          <li>Agenda inteligente</li>
+          <li>Assistente no WhatsApp</li>
+          <li>Resumo da manhã às 7h em áudio</li>
+          <li>Controle do Dinheiro de Campanha</li>
+        </ul>
+        <a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20agendar%20uma%20apresenta%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener" class="btn btn-primary">Solicitar apresentação</a>
+      </div>
+
+      <div class="price-card">
+        <div class="tier-name">Nível III</div>
+        <h3>Comando</h3>
+        <div class="desc">A sala de guerra completa. Radar de adversários, painel de cabos eleitorais e protocolo de crise para operações de alta complexidade.</div>
+        <ul>
+          <li>Tudo do nível Estratégico</li>
+          <li>Radar de Adversários</li>
+          <li>Caderno de Promessas</li>
+          <li>Painel de Cabos Eleitorais</li>
+          <li>Botão de Crise · resposta em 60s</li>
+          <li>Atendimento 24h · gerente dedicado</li>
+          <li>Operação em escala estadual e federal</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Falar com especialista</a>
+      </div>
+    </div>
+
+    <p class="price-disclaimer">
+      Implantação sob medida conforme o cargo, o porte da campanha e a região de operação. A Node Data conduz uma sessão de diagnóstico antes de qualquer proposta — cada projeto começa por uma leitura honesta da disputa.
+    </p>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section class="band" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">Perguntas frequentes</div>
+      <h2>O que candidatos perguntam <em>antes</em> de assinar.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">A plataforma substitui meu marqueteiro?</div>
+        <div class="faq-a">Não. Ela substitui o pedaço de achismo do marqueteiro. Ele continua decidindo o discurso, as peças e o tom — mas agora com dado em vez de achismo. Em geral, o marqueteiro vira o usuário mais ativo do painel.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Os dados dos cidadãos estão protegidos pela LGPD?</div>
+        <div class="faq-a">Sim. As mensagens enviadas pelo WhatsApp utilizam criptografia de ponta a ponta e, antes do primeiro envio, o cidadão passa por um aceite sobre o uso das informações. O Node Data trata os dados conforme a LGPD, com acesso restrito ao painel, proteção das informações pessoais e ocultação de dados sensíveis sempre que possível. Além disso, os contratos incluem cláusulas formais de proteção de dados.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Quanto tempo leva para começar a usar?</div>
+        <div class="faq-a">Plano Essencial: 5 dias úteis. Plano Cérebro da Campanha: 14 dias. Plano Completo: 21 dias. A instalação inclui a conexão do WhatsApp, a entrada do histórico eleitoral, a configuração do assistente "Marcos" e o treinamento da sua equipe.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Funciona fora de Minas Gerais?</div>
+        <div class="faq-a">Sim — funciona em todo o território nacional. O candidato envia as cidades que quer monitorar e a sua base aliada, e em até 7 dias o sistema está configurado e operando para a campanha.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">O assistente do WhatsApp pode dar opinião política?</div>
+        <div class="faq-a">Não. O assistente é proibido de dar opinião política e de inventar números. Toda resposta vem de dado consultado na hora, com a fonte citada. Se o dado não existe, ele responde "não tenho essa informação".</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Posso cancelar antes do prazo?</div>
+        <div class="faq-a">O contrato tem prazo mínimo (6, 12 ou 18 meses). Se cancelar antes, paga as parcelas que faltam com 30% de desconto. Depois do prazo, a renovação passa a ser mensal com aviso de 30 dias.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA FINAL ============== -->
+<section class="cta-final" id="contato">
+  <div class="container">
+    <h2>Sua próxima eleição não vai esperar pelo seu <em>achismo</em>.</h2>
+    <p>Agende uma apresentação de 30 minutos. Mostramos a plataforma funcionando com dados reais de Minas Gerais e geramos na hora o raio-X de uma cidade da sua base.</p>
+    <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+      <a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20agendar%20uma%20apresenta%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener" class="btn btn-primary btn-lg">Agendar apresentação</a>
+      <a href="https://wa.me/553399283814" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">WhatsApp · (33) 9928-3814</a>
+    </div>
+    <div style="margin-top: 40px; font-size: 12px; color: var(--paper-3); letter-spacing: 0.06em;">
+      RESPOSTA EM ATÉ 24 HORAS · CONVERSA CONFIDENCIAL
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo-original.png" alt="" style="width: 28px; height: 28px;">
+        <div style="font-family: var(--font-serif); font-size: 22px; color: var(--paper-0);">Node Data</div>
+      </div>
+      <p>Plataforma de inteligência política para gestores públicos e candidatos. Desenvolvida pela Node Data Tecnologia Ltda em Sumaré, SP. Em conformidade com a LGPD e com o Marco Legal das Startups.</p>
+    </div>
+    <div>
+      <h5>Plataforma</h5>
+      <ul>
+        <li><a href="#plataforma">Raio-X da Cidade</a></li>
+        <li><a href="#plataforma">Lista Semanal de Prioridades</a></li>
+        <li><a href="#plataforma">Agenda Inteligente</a></li>
+        <li><a href="#plataforma">Radar de Adversários</a></li>
+        <li><a href="#plataforma">Caderno de Promessas</a></li>
+        <li><a href="#plataforma">Caderno de Aliados</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Para candidatos</h5>
+      <ul>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#planos">Módulos da plataforma</a></li>
+        <li><a href="#demo">Ver na prática</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://wa.me/553399283814?text=Ol%C3%A1%2C%20quero%20agendar%20uma%20apresenta%C3%A7%C3%A3o%20do%20Radar%20Eleitoral." target="_blank" rel="noopener">Agendar apresentação</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Node Data</h5>
+      <ul>
+        <li><a href="#">Sobre a empresa</a></li>
+        <li><a href="#">Imprensa</a></li>
+        <li><a href="#">Política de Privacidade · LGPD</a></li>
+        <li><a href="#">Termos de uso</a></li>
+        <li><a href="#contato">Contato comercial</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Node Data Tecnologia Ltda · CNPJ 65.705.831/0001-04 · Sumaré, SP</span>
+    <span>politica@nodedata.com.br</span>
+  </div>
+</footer>
+
+</body>
+</html>

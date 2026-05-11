@@ -1,0 +1,152 @@
+/* =========================================================
+   NODE DATA — DESIGN TOKENS
+   govtech institucional · paleta humana e terrosa · serif+sans
+   ========================================================= */
+
+:root {
+  /* ---------- PAPEL & TINTA (neutros quentes) ---------- */
+  --paper-0:   #fbf8f3;  /* ivory — fundo claro, levemente amarelado */
+  --paper-1:   #f5f0e6;  /* pergaminho — cards, áreas de respiro */
+  --paper-2:   #ece4d3;  /* areia — bandas, divisores de seção */
+  --paper-3:   #ddd2b8;  /* linho — accent terroso, borda forte */
+
+  --ink:       #0E1B2C;  /* navy institucional — headlines, botões primários */
+  --ink-2:     #16263c;  /* navy suave */
+  --ink-3:     #4a5468;  /* cinza-azul — texto secundário */
+  --ink-4:     #7d869a;  /* azul-acinzentado — texto auxiliar */
+  --ink-5:     #b8ab9c;  /* placeholder, disabled */
+
+  --line:      rgba(26,22,20,0.12);  /* borda padrão */
+  --line-2:    rgba(26,22,20,0.22);  /* borda forte */
+  --line-soft: rgba(26,22,20,0.06);
+
+  /* ---------- MARCA (gradiente do logo) ---------- */
+  --brand-50:  #e9fbff;
+  --brand-100: #c9f3fd;
+  --brand-200: #8de5fb;
+  --brand-300: #3cd2f4;
+  --brand-400: #16b7e3;  /* ciano médio — logo */
+  --brand-500: #0a94c7;  /* azul-ciano — principal */
+  --brand-600: #0a74a8;  /* azul profundo — texto sobre claro */
+  --brand-700: #0b5a88;
+  --brand-800: #0b4569;
+  --brand-900: #092f48;
+  --brand-grad: linear-gradient(135deg, #16b7e3 0%, #0a74a8 100%);
+
+  /* ---------- ACCENT TERROSO (destaque humano) ---------- */
+  --clay-50:   #fbf1e8;
+  --clay-100:  #f3dcc4;
+  --clay-300:  #d69a60;
+  --clay-500:  #b06a2c;  /* terracota — CTA secundário, pull-quotes */
+  --clay-700:  #7a4416;
+  --clay-900:  #3f2209;
+
+  /* ---------- FEEDBACK (semântico, sóbrio) ---------- */
+  --ok:        #2f6b3f;  /* verde mata */
+  --ok-soft:   #dbe9db;
+  --warn:      #a9721a;  /* âmbar */
+  --warn-soft: #f2e4c7;
+  --alert:     #a31a22;  /* vermelho instituicional (SOS) */
+  --alert-soft:#f2d7d8;
+  --info:      #0a74a8;  /* mesmo que brand-600 */
+  --info-soft: #d9ecf5;
+
+  /* ---------- TIPOGRAFIA ---------- */
+  --font-serif:    'Fraunces', 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-editorial:'Instrument Serif', 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans:     'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:     'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Escala — institucional, com step editorial */
+  --fs-eyebrow:   11px;   /* caps tracking */
+  --fs-xs:        12px;
+  --fs-sm:        13px;
+  --fs-base:      15px;
+  --fs-body:      16px;
+  --fs-lg:        18px;
+  --fs-xl:        22px;
+  --fs-2xl:       28px;
+  --fs-3xl:       36px;   /* H3 */
+  --fs-4xl:       48px;   /* H2 */
+  --fs-5xl:       64px;   /* H1 */
+  --fs-display:   88px;   /* hero editorial */
+
+  --lh-tight:     1.08;
+  --lh-snug:      1.22;
+  --lh-normal:    1.45;
+  --lh-relaxed:   1.6;
+
+  /* ---------- ESPAÇO & RAIO ---------- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-7: 32px; --sp-8: 40px;
+  --sp-9: 56px; --sp-10: 72px; --sp-11: 96px; --sp-12: 128px;
+
+  --r-xs: 4px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+  --r-xl: 20px; --r-2xl: 28px; --r-pill: 999px;
+
+  /* ---------- SOMBRAS (suaves, quase imperceptíveis) ---------- */
+  --shadow-1: 0 1px 0 rgba(26,22,20,0.04);
+  --shadow-2: 0 2px 8px rgba(26,22,20,0.05), 0 1px 0 rgba(26,22,20,0.04);
+  --shadow-3: 0 12px 32px rgba(26,22,20,0.08), 0 2px 6px rgba(26,22,20,0.05);
+  --shadow-4: 0 32px 80px rgba(26,22,20,0.14), 0 4px 10px rgba(26,22,20,0.06);
+
+  /* ---------- LAYOUT ---------- */
+  --page-max: 1240px;
+  --page-x:   64px;
+}
+
+/* ---------- ELEMENTOS BASE ---------- */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper-0);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; letter-spacing: -0.02em; line-height: var(--lh-tight); margin: 0; }
+h1 { font-size: var(--fs-5xl); }
+h2 { font-size: var(--fs-4xl); }
+h3 { font-size: var(--fs-3xl); }
+h4 { font-size: var(--fs-2xl); }
+
+p { margin: 0; }
+
+a { color: var(--brand-600); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+code, pre { font-family: var(--font-mono); font-size: 13px; }
+
+::selection { background: var(--brand-200); color: var(--ink); }
+
+/* scrollbar sóbria */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+
+/* utilitário: eyebrow (caps minúsculas institucionais) */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+}
+
+/* utilitário: regra fina de seção (graphline motif do logo) */
+.hairline { border: 0; height: 1px; background: var(--line); margin: 0; }
+
+/* utilitário: tag institucional */
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: var(--r-pill);
+  background: var(--paper-1); color: var(--ink-3);
+  border: 1px solid var(--line);
+  font-size: var(--fs-xs); font-weight: 500;
+  letter-spacing: 0.02em;
+}
