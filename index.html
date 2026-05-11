@@ -3560,5 +3560,179 @@ O Radar Eleitoral da Node Data não é só painel. É decisão. O candidato rece
   </div>
 </footer>
 
+<!-- ===== MOBILE LIGHTBOX: preview + tela cheia dos mockups ===== -->
+<style>
+  /* Esconde o overlay em desktop como segurança extra */
+  .mobile-preview-overlay { display: none; }
+
+  @media (max-width: 820px) {
+    .tour-mock,
+    .sit-shell,
+    .rank-shell,
+    .op-shell,
+    .sim-shell,
+    .radar-shell {
+      position: relative;
+      max-height: 280px;
+      overflow: hidden;
+    }
+
+    .mobile-preview-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 130px;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        var(--paper-0) 100%
+      );
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 16px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .mobile-preview-btn {
+      pointer-events: auto;
+      background: var(--ink);
+      color: var(--paper-0);
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      font-family: var(--font-sans);
+    }
+  }
+
+  .mockup-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 13, 18, 0.96);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+  }
+  .mockup-modal.open { display: flex; }
+
+  .mockup-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+  }
+
+  .mockup-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  .mockup-modal-body {
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    background: rgba(10, 13, 18, 0.96);
+  }
+
+  .mockup-modal-body > * {
+    flex-shrink: 0;
+    min-width: 720px;
+  }
+
+  body.modal-open { overflow: hidden; }
+</style>
+
+<script>
+(function () {
+  var SELECTOR = '.tour-mock, .sit-shell, .rank-shell, .op-shell, .sim-shell, .radar-shell';
+
+  var modal = document.createElement('div');
+  modal.className = 'mockup-modal';
+  modal.innerHTML =
+    '<div class="mockup-modal-header">' +
+      '<span>Arraste para explorar · pinça para dar zoom</span>' +
+      '<button class="mockup-modal-close" aria-label="Fechar">×</button>' +
+    '</div>' +
+    '<div class="mockup-modal-body"></div>';
+  document.body.appendChild(modal);
+
+  var modalBody = modal.querySelector('.mockup-modal-body');
+  var closeBtn = modal.querySelector('.mockup-modal-close');
+
+  function openModal(sourceEl) {
+    if (!sourceEl) return;
+    modalBody.innerHTML = '';
+    var clone = sourceEl.cloneNode(true);
+    modalBody.appendChild(clone);
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    modalBody.innerHTML = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  var wrappers = document.querySelectorAll(SELECTOR);
+  wrappers.forEach(function (wrapper) {
+    if (!wrapper.firstElementChild) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'mobile-preview-overlay';
+
+    var btn = document.createElement('button');
+    btn.className = 'mobile-preview-btn';
+    btn.type = 'button';
+    btn.innerHTML =
+      '<span>Ver em tela cheia</span>' +
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="15 3 21 3 21 9"></polyline>' +
+        '<polyline points="9 21 3 21 3 15"></polyline>' +
+        '<line x1="21" y1="3" x2="14" y2="10"></line>' +
+        '<line x1="3" y1="21" x2="10" y2="14"></line>' +
+      '</svg>';
+
+    overlay.appendChild(btn);
+    wrapper.appendChild(overlay);
+
+    btn.addEventListener('click', function () {
+      if (window.innerWidth > 820) return;
+      openModal(wrapper.firstElementChild);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
