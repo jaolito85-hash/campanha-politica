@@ -1197,6 +1197,273 @@
   .tour-stat { background: var(--paper-0); border: 1px solid var(--line); border-left: 3px solid var(--clay-500); padding: 14px 18px; font-size: 14px; line-height: 1.5; color: var(--ink-2); border-radius: 4px; }
   .tour-stat strong { color: var(--clay-700); }
 
+  /* ====== LEGALIDADE LGPD — bloco entre Voz do Povo e Radar MG ====== */
+  .legal-block { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: start; margin-bottom: 80px; }
+  .legal-mock-col { position: sticky; top: 40px; display: flex; justify-content: center; }
+  .legal-content-col { display: flex; flex-direction: column; gap: 28px; }
+
+  /* ====== Mockup iPhone — recriação CSS fidedigna ao PNG de referência ====== */
+  /* Container simples — apenas centraliza o iPhone, sem fundo */
+  .iphone-stage {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    padding: 8px 0;
+  }
+
+  /* Frame do iPhone (Titanium-like) */
+  .iphone-device {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 9 / 19.5;
+    background: linear-gradient(135deg, #4a4a4a 0%, #1d1d1d 25%, #2c2c2c 50%, #1a1a1a 75%, #383838 100%);
+    border-radius: 46px;
+    padding: 9px;
+    box-shadow:
+      inset 0 0 0 0.5px rgba(255,255,255,0.18),
+      inset 0 0 0 2px #0e0e0e,
+      inset 0 0 0 2.5px rgba(255,255,255,0.04),
+      0 25px 50px -15px rgba(0,0,0,0.7),
+      0 8px 20px -6px rgba(0,0,0,0.55);
+  }
+
+  /* Botões laterais do iPhone (silhuetas sutis) */
+  .iphone-btn {
+    position: absolute;
+    background: linear-gradient(90deg, #1a1a1a 0%, #3a3a3a 50%, #1a1a1a 100%);
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .iphone-btn--silent  { left: -2px; top: 78px;  width: 3px; height: 22px; border-radius: 1.5px 0 0 1.5px; }
+  .iphone-btn--volup   { left: -2px; top: 118px; width: 3px; height: 38px; border-radius: 1.5px 0 0 1.5px; }
+  .iphone-btn--voldown { left: -2px; top: 168px; width: 3px; height: 38px; border-radius: 1.5px 0 0 1.5px; }
+  .iphone-btn--lock    { right: -2px; top: 120px; width: 3px; height: 58px; border-radius: 0 1.5px 1.5px 0; }
+
+  /* Tela */
+  .iphone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 38px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans);
+  }
+
+  /* Status bar */
+  .ios-statusbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 26px 0;
+    flex-shrink: 0;
+  }
+  .ios-time {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .ios-icons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #fff;
+  }
+  .ios-icons svg:nth-child(1) { width: 14px; height: 9px; }
+  .ios-icons svg:nth-child(2) { width: 14px; height: 10px; }
+  .ios-icons svg:nth-child(3) { width: 24px; height: 11px; }
+
+  /* Dynamic Island */
+  .ios-island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 28px;
+    background: #000;
+    border-radius: 18px;
+    z-index: 3;
+    box-shadow: inset 0 0 0 0.5px #0a0a0a;
+  }
+
+  /* Conteúdo */
+  .vp-content {
+    flex: 1;
+    padding: 24px 20px 12px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .vp-hero-icon {
+    width: 56px;
+    height: 56px;
+    background: radial-gradient(circle at 35% 30%, rgba(74,222,128,0.32) 0%, rgba(34,197,94,0.18) 60%, rgba(34,197,94,0.08) 100%);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin: 4px auto 8px;
+    flex-shrink: 0;
+  }
+  .vp-hero-icon svg {
+    width: 36px;
+    height: 36px;
+    fill: #4ade80;
+  }
+
+  .vp-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    margin: 0 0 8px;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    flex-shrink: 0;
+  }
+
+  .vp-welcome {
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #e2e8f0;
+    text-align: center;
+    margin: 0 0 6px;
+    flex-shrink: 0;
+  }
+  .vp-welcome strong {
+    color: #4ade80;
+    font-weight: 700;
+  }
+  .vp-emoji { font-style: normal; }
+
+  .vp-desc {
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: #94a3b8;
+    text-align: center;
+    margin: 0 2px 6px;
+    flex-shrink: 0;
+  }
+
+  .vp-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 6px 0;
+    flex-shrink: 0;
+  }
+
+  .vp-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 2px 0 4px;
+    flex-shrink: 0;
+  }
+  .vp-block-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .vp-block-ico {
+    width: 16px;
+    height: 16px;
+    color: #4ade80;
+    flex-shrink: 0;
+  }
+  .vp-block h3 {
+    font-size: 12px;
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+  }
+  .vp-block p {
+    font-size: 9.5px;
+    line-height: 1.45;
+    color: #94a3b8;
+    margin: 0;
+    padding-left: 22px;
+  }
+
+  .vp-cta {
+    background: linear-gradient(180deg, #34d96a 0%, #22c55e 100%);
+    color: #052e16;
+    border: none;
+    padding: 13px 18px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    flex-shrink: 0;
+    font-family: var(--font-sans);
+    box-shadow: 0 6px 18px -6px rgba(34,197,94,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+    letter-spacing: -0.01em;
+  }
+  .vp-cta svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .vp-later {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: #4ade80;
+    font-size: 10.5px;
+    padding: 8px 0 2px;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+  .vp-later svg { width: 11px; height: 11px; }
+
+  /* Home indicator (pill) */
+  .ios-pill {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 3px;
+    z-index: 3;
+  }
+
+  /* Conteúdo legal à direita */
+  .legal-eyebrow { font-family: var(--font-mono); font-size: 11px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.18em; margin: 0 0 12px; font-weight: 700; }
+  .legal-content-col h3 { font-size: 38px; margin: 0 0 6px; letter-spacing: -0.01em; line-height: 1.1; }
+  .legal-content-col h3 em { font-style: italic; font-family: var(--font-editorial); color: #16a34a; }
+  .legal-lead { font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0 0 8px; }
+  .legal-pillars { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .legal-pillars li { font-size: 14px; line-height: 1.55; color: var(--ink-3); padding-left: 20px; position: relative; }
+  .legal-pillars li::before { content: ''; position: absolute; left: 0; top: 7px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+  .legal-pillars strong { color: var(--ink); font-weight: 700; }
+  .legal-conclusion { background: rgba(34,197,94,0.06); border-left: 3px solid #22c55e; padding: 16px 20px; border-radius: 4px; font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+  .legal-conclusion strong { color: var(--ink); font-weight: 700; }
+  .legal-table-title { font-size: 16px; font-weight: 700; margin: 8px 0 -8px; display: flex; align-items: center; gap: 8px; color: var(--ink); }
+  .legal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .legal-table thead th { text-align: left; font-weight: 700; color: var(--ink); padding: 12px 18px 10px 0; border-bottom: 1px solid var(--line); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .legal-table tbody td { padding: 14px 18px 14px 0; border-bottom: 1px solid var(--line); color: var(--ink-3); vertical-align: top; line-height: 1.5; }
+  .legal-table tbody td:first-child { color: var(--ink); font-weight: 700; white-space: nowrap; }
+  .legal-table tbody tr:last-child td { border-bottom: none; }
+  .legal-status { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+  .legal-status--ok { background: rgba(34,197,94,0.12); color: #15803d; }
+  .legal-status--warn { background: rgba(245,158,11,0.14); color: #b45309; }
+  .legal-footer-note { font-size: 13px; color: var(--ink-3); margin: 0; line-height: 1.55; }
+  .legal-footer-note a { color: var(--clay-500); text-decoration: underline; }
+
   .tour-mock { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-4); border: 1px solid var(--line-2); }
   .mock-chrome { background: #1f1d1c; padding: 10px 14px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #000; }
   .mock-dots { display: flex; gap: 6px; }
@@ -1836,6 +2103,24 @@
     .cta-final h2 { font-size: clamp(34px, 5.4vw, 64px); }
     .tour-block { grid-template-columns: 1fr; gap: 32px; margin-bottom: 56px; }
     .tour-text { position: static; }
+
+    /* Legalidade LGPD mobile */
+    .legal-block { grid-template-columns: 1fr; gap: 28px; margin-bottom: 56px; }
+    .legal-mock-col { position: static; }
+    /* Mobile: iPhone cabe inteiro na largura, sem cortes e sem fundo */
+    .iphone-stage { padding: 0; }
+    .iphone-device { max-width: min(280px, calc(100vw - 64px)); }
+    .legal-content-col h3 { font-size: clamp(26px, 7vw, 32px); }
+    .legal-lead { font-size: 15px; }
+    .legal-table-title { font-size: 15px; }
+    /* tabela vira card stack */
+    .legal-table thead { display: none; }
+    .legal-table tbody tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .legal-table tbody tr:last-child { border-bottom: none; }
+    .legal-table tbody td { display: block; padding: 4px 0; border: none; }
+    .legal-table tbody td:first-child { font-size: 15px; padding-bottom: 6px; }
+    .legal-table tbody td:nth-child(2) { padding-bottom: 8px; }
+    .legal-table tbody td:nth-child(3) { font-size: 13px; color: var(--ink-3); }
     .price-grid { grid-template-columns: 1fr; gap: 18px; }
     .modules-grid { grid-template-columns: repeat(6, 1fr); }
   }
@@ -2704,6 +2989,148 @@
       </div>
     </div>
 
+    <!-- Legalidade LGPD: tela de entrada do cidadão + conformidades -->
+    <div class="legal-block" id="legalidade">
+      <div class="legal-mock-col">
+        <div class="iphone-stage">
+          <div class="iphone-device">
+            <span class="iphone-btn iphone-btn--silent"></span>
+            <span class="iphone-btn iphone-btn--volup"></span>
+            <span class="iphone-btn iphone-btn--voldown"></span>
+            <span class="iphone-btn iphone-btn--lock"></span>
+            <div class="iphone-screen">
+              <div class="ios-statusbar">
+                <span class="ios-time">9:41</span>
+                <span class="ios-icons">
+                  <svg viewBox="0 0 18 12" fill="currentColor" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/><rect x="9" y="3" width="3" height="9" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+                  <svg viewBox="0 0 16 12" fill="currentColor" aria-hidden="true"><path d="M8 11.2a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4Zm-3.2-3.6a4.6 4.6 0 0 1 6.4 0l-1.3 1.3a2.8 2.8 0 0 0-3.8 0L4.8 7.6Zm-2.6-2.6a8.3 8.3 0 0 1 11.6 0l-1.3 1.3a6.5 6.5 0 0 0-9 0L2.2 5Z"/></svg>
+                  <svg viewBox="0 0 26 12" fill="none" aria-hidden="true"><rect x="0.5" y="1" width="22" height="10" rx="2.3" stroke="currentColor" stroke-opacity="0.55" stroke-width="0.9"/><rect x="2" y="2.5" width="17" height="7" rx="1.3" fill="currentColor"/><rect x="23.5" y="3.8" width="1.6" height="4.4" rx="0.6" fill="currentColor" fill-opacity="0.55"/></svg>
+                </span>
+              </div>
+              <div class="ios-island"></div>
+
+              <div class="vp-content">
+                <div class="vp-hero-icon">
+                  <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <circle cx="24" cy="17" r="6"/>
+                    <circle cx="11" cy="21" r="4.5"/>
+                    <circle cx="37" cy="21" r="4.5"/>
+                    <path d="M13 40c0-7 5-10 11-10s11 3 11 10z"/>
+                    <path d="M2 40c0-6 3-9 7.5-9 2 0 3.5.6 4.5 1.5"/>
+                    <path d="M46 40c0-6-3-9-7.5-9-2 0-3.5.6-4.5 1.5"/>
+                    <ellipse cx="22" cy="17" rx="1" ry="1.4" fill="#062b15"/>
+                    <ellipse cx="26" cy="17" rx="1" ry="1.4" fill="#062b15"/>
+                    <path d="M21 19.5c1 1 2 1 3 0" stroke="#062b15" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+
+                <h2 class="vp-title">Voz do Povo</h2>
+
+                <p class="vp-welcome">Olá! Seja muito bem-vindo(a) ao canal<br><strong>Voz do Povo!</strong> <span class="vp-emoji">📣</span></p>
+
+                <p class="vp-desc">Este é o seu espaço direto para falar sobre a nossa cidade. Queremos ouvir o que te aflige e quais problemas precisam de atenção para construirmos propostas reais.</p>
+
+                <div class="vp-divider"></div>
+
+                <div class="vp-block">
+                  <div class="vp-block-head">
+                    <svg class="vp-block-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><rect x="9" y="10" width="6" height="5" rx="1"/><path d="M10 10V8.5a2 2 0 0 1 4 0V10"/></svg>
+                    <h3>Antes de começarmos:</h3>
+                  </div>
+                  <p>Ao continuar, você autoriza o tratamento dos seus relatos pela nossa equipe estratégica para fins de planejamento de campanha, sempre com sigilo e nos termos da LGPD. Seus dados pessoais não serão expostos publicamente.</p>
+                </div>
+
+                <div class="vp-divider"></div>
+
+                <div class="vp-block">
+                  <div class="vp-block-head">
+                    <svg class="vp-block-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm3 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                    <h3>Como posso te ajudar agora?</h3>
+                  </div>
+                  <p>Você pode enviar um texto ou um áudio descrevendo o problema ou sugestão. Se possível, informe o bairro ou a região! <span class="vp-emoji">📍</span></p>
+                </div>
+
+                <button type="button" class="vp-cta" aria-disabled="true">
+                  <span>Aceitar e continuar</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
+
+                <div class="vp-later">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+                  <span>Agora não</span>
+                </div>
+              </div>
+
+              <div class="ios-pill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="legal-content-col">
+        <div>
+          <div class="legal-eyebrow">Conformidade LGPD · Marco eleitoral</div>
+          <h3>Aceite <em>explícito</em> do cidadão. Sigilo desde a primeira mensagem.</h3>
+          <p class="legal-lead">Todo cidadão entra pelo QR code da campanha ou pelo número oficial do candidato. A primeira tela mostra o aceite formal: sem ele, o sistema não coleta nada — nem nome, nem áudio, nem localização. Conformidade não é um adendo, é o passo zero do produto.</p>
+        </div>
+
+        <div>
+          <h4 class="legal-table-title">⚖ Legalidade do módulo "Voz do Povo"</h4>
+          <p class="legal-lead" style="margin: 16px 0 14px;">A estrutura foi desenhada com base nos pilares operacionais do <strong>Node Data</strong>:</p>
+          <ul class="legal-pillars">
+            <li><strong>Fator WhatsApp:</strong> linguagem familiar e direta, garantindo taxa de resposta superior a <strong>70%</strong> por não exigir downloads ou cadastros complexos.</li>
+            <li><strong>Transparência LGPD:</strong> o cidadão é informado imediatamente que os dados serão tratados com sigilo, o que é fundamental para a conformidade legal do software.</li>
+            <li><strong>Protocolo de Sigilo:</strong> assim como em sistemas de segurança pública, a identificação é necessária para a gestão interna, mas o anonimato é preservado na divulgação dos dados.</li>
+            <li><strong>Captura Multimodal:</strong> estimula o envio de fotos e áudios — a IA do Node Data processa cada peça para extrair sentimento e localização exata do problema.</li>
+            <li><strong>Escuta Ativa:</strong> transforma o contato em dado de gestão em tempo real, permitindo identificar surtos de demanda antes que virem pauta negativa na imprensa.</li>
+          </ul>
+        </div>
+
+        <div class="legal-conclusion">
+          <strong>Conclusão:</strong> o processo é compatível com a legislação eleitoral e a LGPD enquanto o Node Data atua apenas como organizador de demandas voluntárias, respeita o silêncio do eleitor que não quer ser incomodado e é devidamente declarado nos custos de campanha.
+        </div>
+
+        <div>
+          <h4 class="legal-table-title">📋 Tabela de riscos e recomendações</h4>
+          <table class="legal-table" style="margin-top: 16px;">
+            <thead>
+              <tr>
+                <th>Ponto de atenção</th>
+                <th>Status legal</th>
+                <th>Recomendação para o Node Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Identificação</td>
+                <td><span class="legal-status legal-status--warn">Obrigatória</span></td>
+                <td>O cidadão deve se identificar para evitar relatos falsos (fake news), mas o software deve garantir o anonimato público do relato.</td>
+              </tr>
+              <tr>
+                <td>Coleta via WhatsApp</td>
+                <td><span class="legal-status legal-status--ok">Permitida</span></td>
+                <td>Manter a conversa fluida, mas registrar o log de consentimento no banco de dados.</td>
+              </tr>
+              <tr>
+                <td>Uso de IA no discurso</td>
+                <td><span class="legal-status legal-status--ok">Permitido</span></td>
+                <td>A IA pode resumir os temas mais citados para o discurso, desde que não invente demandas inexistentes — o que seria desinformação.</td>
+              </tr>
+              <tr>
+                <td>Armazenamento</td>
+                <td><span class="legal-status legal-status--warn">Restrito</span></td>
+                <td>Os dados não podem ser vendidos ou compartilhados com outras campanhas ou empresas.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="legal-footer-note">
+          Detalhes completos em <a href="privacidade.html">Política de Privacidade</a> · <a href="termos-de-uso.html">Termos de Uso</a>. Tratamento conforme Lei 13.709/2018 (LGPD) e Resolução TSE 23.610/2019.
+        </p>
+      </div>
+    </div>
+
     <!-- Tela 02: Radar MG -->
     <div class="tour-block">
       <div class="tour-text">
@@ -3562,7 +3989,7 @@ O Radar Eleitoral da Node Data não é só painel. É decisão. O candidato rece
         <img src="assets/logo-original.png" alt="" style="width: 28px; height: 28px;">
         <div style="font-family: var(--font-serif); font-size: 22px; color: var(--paper-0);">Node Data</div>
       </div>
-      <p>Plataforma de inteligência política para gestores públicos e candidatos. Desenvolvida pela Node Data Tecnologia Ltda em Sumaré, SP. Em conformidade com a LGPD e com o Marco Legal das Startups.</p>
+      <p>Plataforma de inteligência política para gestores públicos e candidatos. Desenvolvida pela Node Data Tecnologia Ltda em Sumaré, SP. Em conformidade com a <a href="#legalidade" style="color: inherit; text-decoration: underline;">LGPD (Lei 13.709/2018)</a>, a Resolução TSE 23.610/2019 e o Marco Legal das Startups.</p>
     </div>
     <div>
       <h5>Plataforma</h5>
@@ -3590,6 +4017,7 @@ O Radar Eleitoral da Node Data não é só painel. É decisão. O candidato rece
       <ul>
         <li><a href="sobre.html">Sobre a empresa</a></li>
         <li><a href="imprensa.html">Imprensa</a></li>
+        <li><a href="#legalidade">Conformidade & aceite LGPD</a></li>
         <li><a href="privacidade.html">Política de Privacidade · LGPD</a></li>
         <li><a href="termos-de-uso.html">Termos de uso</a></li>
         <li><a href="#contato">Contato comercial</a></li>
